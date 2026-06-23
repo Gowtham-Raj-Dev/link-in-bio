@@ -10,6 +10,10 @@ import { DEMO_DATA, DEMO_USERNAME } from "@/lib/demo";
 import { getTheme } from "@/lib/themes";
 import type { AppData } from "@/lib/types";
 
+export function generateStaticParams() {
+  return [{ username: "demo" }];
+}
+
 export default function PublicProfilePage({
   params,
 }: {

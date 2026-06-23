@@ -241,6 +241,14 @@ export const LINK_ICONS = [
   "Gift",
   "Coffee",
   "BookOpen",
+  "Youtube",
+  "Instagram",
+  "Facebook",
+  "Twitter",
+  "Linkedin",
+  "Github",
+  "TikTok",
+  "Threads",
 ];
 
 export const NAV_LINKS = [

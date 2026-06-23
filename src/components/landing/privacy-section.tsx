@@ -4,7 +4,7 @@ import { Reveal } from "@/components/ui/reveal";
 
 export function PrivacySection() {
   return (
-    <section id="privacy" className="py-20 sm:py-28">
+    <section id="privacy" className="py-20 sm:py-24">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-2">
           <Reveal>

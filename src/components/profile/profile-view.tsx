@@ -49,12 +49,12 @@ export function ProfileView({ data, preview = false }: ProfileViewProps) {
             <img
               src={profile.avatar}
               alt={profile.displayName || "Avatar"}
-              className="h-24 w-24 rounded-full object-cover shadow-xl"
+              className="h-20 w-20 rounded-full object-cover shadow-xl"
               style={{ border: `2px solid ${theme.muted}` }}
             />
           ) : (
             <div
-              className="flex h-24 w-24 items-center justify-center rounded-full text-3xl font-bold shadow-xl"
+              className="flex h-20 w-20 items-center justify-center rounded-full text-2xl font-bold shadow-xl"
               style={{
                 background: theme.buttonBg,
                 border: theme.buttonBorder,
@@ -136,7 +136,7 @@ export function ProfileView({ data, preview = false }: ProfileViewProps) {
                 href={withProtocol(link.url)}
                 target={target}
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 rounded-xl px-5 py-4 text-sm font-semibold shadow-sm transition-transform hover:scale-[1.02] active:scale-[0.99]"
+                className="group flex w-full items-center gap-3.5 rounded-xl px-4 py-2.5 shadow-sm transition-all hover:scale-[1.02] hover:shadow-md active:scale-[0.99]"
                 style={{
                   background: theme.buttonBg,
                   color: theme.buttonText,
@@ -144,9 +144,19 @@ export function ProfileView({ data, preview = false }: ProfileViewProps) {
                   backdropFilter: theme.glass ? "blur(8px)" : undefined,
                 }}
               >
-                <Icon name={link.icon} className="h-5 w-5 shrink-0 opacity-90" />
-                <span className="flex-1 text-center">{link.title}</span>
-                <span className="h-5 w-5 shrink-0" />
+                <div className="flex shrink-0 items-center justify-center opacity-80 transition-opacity group-hover:opacity-100">
+                  <Icon name={link.icon} className="h-5 w-5" />
+                </div>
+                <div className="flex w-full flex-col overflow-hidden text-left">
+                  <span className="w-full truncate text-[14px] font-semibold leading-tight tracking-wide">
+                    {link.title}
+                  </span>
+                  {link.url && (
+                    <span className="mt-[2px] w-full truncate text-[11px] font-medium leading-none opacity-60">
+                      {link.url.replace(/^https?:\/\/(www\.)?/, "")}
+                    </span>
+                  )}
+                </div>
               </a>
             </Wrapper>
           ))}

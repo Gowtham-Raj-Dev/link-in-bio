@@ -12,6 +12,7 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 /** True when all required Firebase env vars are present. Lets the UI show a
@@ -46,3 +47,17 @@ export function getFirebaseAuth(): Auth | null {
 
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
+
+/** Lazily initialise Firebase Analytics in the browser when supported. Safe to
+ *  call on the client; it no-ops during SSR or when analytics is unavailable. */
+export async function initAnalytics() {
+  if (typeof window === "undefined") return;
+  const firebaseApp = getFirebaseApp();
+  if (!firebaseApp || !firebaseConfig.measurementId) return;
+  try {
+    const { getAnalytics, isSupported } = await import("firebase/analytics");
+    if (await isSupported()) getAnalytics(firebaseApp);
+  } catch {
+    // Analytics is optional — ignore environments where it can't load.
+  }
+}

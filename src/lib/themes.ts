@@ -116,6 +116,18 @@ export const THEMES: Theme[] = [
     accent: "#0f172a",
   },
   {
+    id: "pure-white",
+    name: "Pure White",
+    description: "Absolute white canvas with high contrast.",
+    background: "#ffffff",
+    text: "#000000",
+    muted: "#52525b",
+    buttonBg: "#000000",
+    buttonText: "#ffffff",
+    buttonBorder: "1px solid #000000",
+    accent: "#000000",
+  },
+  {
     id: "glass",
     name: "Glass",
     description: "Frosted glassmorphism over a soft gradient.",

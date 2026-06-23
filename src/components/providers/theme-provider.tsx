@@ -21,16 +21,16 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 const STORAGE_KEY = "linkinbio:color-mode";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [mode, setModeState] = useState<Mode>("dark");
-
-  useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY) as Mode | null;
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    const initial: Mode = stored ?? (prefersDark ? "dark" : "light");
-    setModeState(initial);
-  }, []);
+  // Initialise from the class the inline boot script already applied, so the
+  // first paint, React state and the DOM all agree (no flash, no override).
+  const [mode, setModeState] = useState<Mode>(() => {
+    if (typeof document !== "undefined") {
+      return document.documentElement.classList.contains("dark")
+        ? "dark"
+        : "light";
+    }
+    return "dark";
+  });
 
   useEffect(() => {
     const root = document.documentElement;

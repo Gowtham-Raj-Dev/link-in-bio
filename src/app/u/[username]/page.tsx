@@ -7,6 +7,7 @@ import { ProfileView } from "@/components/profile/profile-view";
 import { Button } from "@/components/ui/button";
 import { loadPublicProfile } from "@/lib/storage";
 import { DEMO_DATA, DEMO_USERNAME } from "@/lib/demo";
+import { getTheme } from "@/lib/themes";
 import type { AppData } from "@/lib/types";
 
 export default function PublicProfilePage({
@@ -61,9 +62,23 @@ export default function PublicProfilePage({
     );
   }
 
+  const theme = getTheme(data.themeId);
+
   return (
-    <div className="min-h-screen">
-      <ProfileView data={data} />
+    <div 
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden sm:p-12"
+      style={{ background: theme.background }}
+    >
+      {/* Ambient background blur for desktop to slightly separate the phone from the background */}
+      <div className="pointer-events-none hidden sm:absolute sm:inset-0 sm:block sm:bg-black/5 sm:backdrop-blur-3xl" />
+      
+      {/* Mobile Card Container on Desktop */}
+      <div 
+        className="relative z-10 flex w-full flex-1 flex-col sm:max-h-[850px] sm:max-w-[400px] sm:flex-none sm:overflow-y-auto sm:rounded-[3rem] sm:border-[8px] sm:border-zinc-900 sm:shadow-2xl sm:ring-1 sm:ring-black/10 no-scrollbar bg-background"
+        style={{ background: theme.background }}
+      >
+        <ProfileView data={data} />
+      </div>
     </div>
   );
 }

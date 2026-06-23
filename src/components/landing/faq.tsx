@@ -10,7 +10,7 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="border-t border-border bg-card/40 py-20 sm:py-28">
+    <section id="faq" className="border-t border-border bg-card/40 py-20 sm:py-24">
       <Container>
         <SectionHeading
           eyebrow="FAQ"

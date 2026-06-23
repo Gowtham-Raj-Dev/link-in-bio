@@ -6,14 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 import { useAuth } from "@/lib/auth-context";
-import { useAuthModal } from "@/components/auth/auth-modal";
 
 export function Cta() {
   const { user } = useAuth();
-  const { openLogin } = useAuthModal();
 
   return (
-    <section className="py-20 sm:py-28">
+    <section className="py-20 sm:py-24">
       <Container>
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-primary/20 p-10 text-center sm:p-16">
@@ -34,9 +32,11 @@ export function Cta() {
                     </Button>
                   </Link>
                 ) : (
-                  <Button size="lg" onClick={() => openLogin("/dashboard")}>
-                    Start Free <ArrowRight className="h-4 w-4" />
-                  </Button>
+                  <Link href="/login?tab=signup">
+                    <Button size="lg">
+                      Start Free <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
                 )}
               </div>
             </div>

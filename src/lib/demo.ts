@@ -25,7 +25,7 @@ export const DEMO_DATA: AppData = {
     x: "https://x.com",
     github: "https://github.com",
   },
-  themeId: "midnight",
+  themeId: "premium-black",
   settings: {
     showPrivacyBadge: true,
     showSocialIcons: true,

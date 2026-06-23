@@ -6,7 +6,7 @@ import { ROADMAP } from "@/lib/constants";
 
 export function RoadmapSection() {
   return (
-    <section id="roadmap" className="py-20 sm:py-28">
+    <section id="roadmap" className="py-20 sm:py-24">
       <Container>
         <SectionHeading
           eyebrow="Roadmap"

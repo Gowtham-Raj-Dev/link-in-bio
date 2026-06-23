@@ -5,7 +5,7 @@ import { HOW_IT_WORKS } from "@/lib/constants";
 
 export function HowItWorks() {
   return (
-    <section className="border-y border-border bg-card/40 py-20 sm:py-28">
+    <section className="border-y border-border bg-card/40 py-20 sm:py-24">
       <Container>
         <SectionHeading
           eyebrow="How It Works"

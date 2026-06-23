@@ -5,7 +5,7 @@ import { FEATURES } from "@/lib/constants";
 
 export function Features() {
   return (
-    <section id="features" className="py-20 sm:py-28">
+    <section id="features" className="py-20 sm:py-24">
       <Container>
         <SectionHeading
           eyebrow="Features"

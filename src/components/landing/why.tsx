@@ -5,7 +5,7 @@ import { WHY_POINTS } from "@/lib/constants";
 
 export function Why() {
   return (
-    <section className="border-y border-border bg-card/40 py-20 sm:py-28">
+    <section className="border-y border-border bg-card/40 py-20 sm:py-24">
       <Container>
         <SectionHeading
           eyebrow="Why LinkinBio"

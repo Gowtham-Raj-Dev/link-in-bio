@@ -12,6 +12,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+
       <Features />
       <Why />
       <PrivacySection />

@@ -1,21 +1,22 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Loader2, Lock } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
-import { useAuthModal } from "./auth-modal";
 import { Button } from "@/components/ui/button";
 
 /** Gate dashboard pages behind authentication. */
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user, loading, configured } = useAuth();
-  const { openLogin } = useAuthModal();
+  const router = useRouter();
 
   useEffect(() => {
     if (!loading && !user && configured) {
-      openLogin("/dashboard");
+      router.replace("/login?redirect=/dashboard");
     }
-  }, [loading, user, configured, openLogin]);
+  }, [loading, user, configured, router]);
 
   if (loading) {
     return (
@@ -34,16 +35,12 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
         <h1 className="text-2xl font-bold tracking-tight">Sign in required</h1>
         <p className="mt-2 max-w-sm text-sm text-muted-foreground">
           {configured
-            ? "Please sign in with Google to access your dashboard."
+            ? "Redirecting you to the sign-in page…"
             : "Firebase isn't configured yet. Add your keys to .env.local to enable sign-in."}
         </p>
-        <Button
-          className="mt-6"
-          onClick={() => openLogin("/dashboard")}
-          disabled={!configured}
-        >
-          Sign in with Google
-        </Button>
+        <Link href="/login?redirect=/dashboard" className="mt-6">
+          <Button disabled={!configured}>Go to sign in</Button>
+        </Link>
       </div>
     );
   }

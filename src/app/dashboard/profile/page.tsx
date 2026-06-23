@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Check, ImagePlus, Trash2, X } from "lucide-react";
+import { Check, Copy, ImagePlus, Trash2, X } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Textarea } from "@/components/ui/input";
@@ -20,10 +20,20 @@ export default function ProfilePage() {
   const [form, setForm] = useState<ProfileData | null>(null);
   const [saved, setSaved] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [copied, setCopied] = useState(false);
+  const [origin, setOrigin] = useState("");
 
   useEffect(() => {
     if (data && !form) setForm(data.profile);
+    if (typeof window !== "undefined") setOrigin(window.location.origin);
   }, [data, form]);
+
+  const handleCopy = () => {
+    if (!origin || !form?.username) return;
+    navigator.clipboard.writeText(`${origin}/u/${form.username}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   if (!ready || !data || !form) {
     return <div className="h-96 rounded-2xl skeleton" />;
@@ -147,22 +157,47 @@ export default function ProfilePage() {
                 />
               </div>
               {form.username && (
-                <p
-                  className={`mt-1.5 flex items-center gap-1 text-xs ${
+                <div
+                  className={`mt-2 flex flex-col gap-3 text-sm ${
                     usernameTaken ? "text-red-500" : "text-emerald-500"
                   }`}
                 >
                   {usernameTaken ? (
-                    <>
-                      <X className="h-3 w-3" /> This username is taken on this
-                      device
-                    </>
+                    <span className="flex items-center gap-1 text-xs">
+                      <X className="h-3 w-3" /> This username is taken on this device
+                    </span>
                   ) : (
                     <>
-                      <Check className="h-3 w-3" /> Available
+                      <span className="flex items-center gap-1 text-xs">
+                        <Check className="h-3 w-3" /> Available
+                      </span>
+                      {origin && (
+                        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border bg-muted/30 p-2.5 sm:flex-nowrap">
+                          <span className="truncate text-sm text-foreground/80">
+                            {origin}/u/{form.username}
+                          </span>
+                          <Button
+                            type="button"
+                            variant="secondary"
+                            size="sm"
+                            className="h-8 shrink-0 bg-background hover:bg-muted"
+                            onClick={handleCopy}
+                          >
+                            {copied ? (
+                              <>
+                                <Check className="h-3.5 w-3.5 text-emerald-500" /> Copied
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="h-3.5 w-3.5" /> Copy link
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      )}
                     </>
                   )}
-                </p>
+                </div>
               )}
             </div>
 

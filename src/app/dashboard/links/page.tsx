@@ -16,7 +16,8 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, Link2, Pencil, Plus, Trash2 } from "lucide-react";
+import { GripVertical, Link2, Pencil, Plus, Trash2, Search } from "lucide-react";
+import { icons } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
@@ -33,6 +34,8 @@ export default function LinksPage() {
   const [links, setLinks] = useState<LinkItem[]>([]);
   const [editing, setEditing] = useState<LinkItem | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [iconSearch, setIconSearch] = useState("");
+  const [visibleCount, setVisibleCount] = useState(100);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
@@ -59,10 +62,14 @@ export default function LinksPage() {
 
   const openAdd = () => {
     setEditing({ id: createId(), title: "", url: "", icon: "Link2" });
+    setIconSearch("");
+    setVisibleCount(100);
     setModalOpen(true);
   };
   const openEdit = (link: LinkItem) => {
     setEditing({ ...link });
+    setIconSearch("");
+    setVisibleCount(100);
     setModalOpen(true);
   };
 
@@ -162,22 +169,94 @@ export default function LinksPage() {
               />
             </div>
             <div>
-              <Label>Icon</Label>
-              <div className="grid grid-cols-8 gap-2">
-                {LINK_ICONS.map((name) => (
-                  <button
-                    key={name}
-                    onClick={() => setEditing({ ...editing, icon: name })}
-                    className={cn(
-                      "flex h-10 items-center justify-center rounded-lg border transition-colors",
-                      editing.icon === name
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border hover:bg-muted"
-                    )}
-                  >
-                    <Icon name={name} className="h-[18px] w-[18px]" />
-                  </button>
-                ))}
+              <div className="mb-3 flex items-center justify-between">
+                <Label>Icon</Label>
+                <div className="relative">
+                  <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    placeholder="Search icons..."
+                    value={iconSearch}
+                    onChange={(e) => {
+                      setIconSearch(e.target.value);
+                      setVisibleCount(100);
+                    }}
+                    className="h-8 w-40 pl-8 text-xs"
+                  />
+                </div>
+              </div>
+              <div 
+                className="max-h-[180px] overflow-y-auto pr-2"
+                onScroll={(e) => {
+                  const target = e.currentTarget;
+                  if (target.scrollHeight - target.scrollTop <= target.clientHeight + 100) {
+                    setVisibleCount((prev) => prev + 100);
+                  }
+                }}
+              >
+                {(() => {
+                  const query = iconSearch.trim().toLowerCase();
+                  
+                  const renderGrid = (list: string[]) => (
+                    <div className="grid grid-cols-8 gap-2">
+                      {list.map((name) => (
+                        <button
+                          key={name}
+                          type="button"
+                          onClick={() => setEditing({ ...editing, icon: name })}
+                          className={cn(
+                            "flex h-10 items-center justify-center rounded-lg border transition-colors",
+                            editing.icon === name
+                              ? "border-primary bg-primary/10 text-primary"
+                              : "border-border hover:bg-muted"
+                          )}
+                          title={name}
+                        >
+                          <Icon name={name} className="h-[18px] w-[18px]" />
+                        </button>
+                      ))}
+                    </div>
+                  );
+
+                  if (query) {
+                    const brandKeys = ["Youtube", "Instagram", "Facebook", "Twitter", "Linkedin", "Github", "TikTok", "Threads"];
+                    const allKeys = [...brandKeys, ...Object.keys(icons)];
+                    const options = allKeys
+                      .filter((k) => k.toLowerCase().includes(query))
+                      .slice(0, 48); // limit to 48 results for performance
+
+                    if (options.length === 0) {
+                      return <div className="py-4 text-center text-xs text-muted-foreground">No icons found</div>;
+                    }
+                    
+                    return renderGrid(options);
+                  }
+                  
+                  const socialIcons = ["Youtube", "Instagram", "Facebook", "Twitter", "Linkedin", "Github", "TikTok", "Threads"];
+                  
+                  // use all valid lucide components for the general section
+                  const allLucide = Object.keys(icons).filter(k => /^[A-Z]/.test(k));
+                  let generalIcons = allLucide.filter((k) => !socialIcons.includes(k));
+                  
+                  // Ensure custom current icon is shown in General if it's not in the lists
+                  if (editing.icon && !socialIcons.includes(editing.icon) && !generalIcons.includes(editing.icon)) {
+                    generalIcons.unshift(editing.icon);
+                  }
+                  
+                  generalIcons = generalIcons.slice(0, visibleCount);
+
+                  return (
+                    <div className="space-y-4 pb-1">
+                      <div>
+                        <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Social Media</p>
+                        {renderGrid(socialIcons)}
+                      </div>
+                      <div>
+                        <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">General</p>
+                        {renderGrid(generalIcons)}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             </div>
             <Button

@@ -8,13 +8,11 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./theme-toggle";
 import { UserMenu } from "@/components/auth/user-menu";
 import { useAuth } from "@/lib/auth-context";
-import { useAuthModal } from "@/components/auth/auth-modal";
 import { NAV_LINKS } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const { user } = useAuth();
-  const { openLogin } = useAuthModal();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -29,7 +27,9 @@ export function Navbar() {
     <header
       className={cn(
         "sticky top-0 z-40 w-full transition-all",
-        scrolled ? "glass-strong border-b border-border" : "bg-transparent"
+        scrolled
+          ? "border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+          : "bg-transparent"
       )}
     >
       <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8">
@@ -59,13 +59,16 @@ export function Navbar() {
               <UserMenu />
             </>
           ) : (
-            <Button
-              size="sm"
-              className="hidden sm:inline-flex"
-              onClick={() => openLogin("/dashboard")}
-            >
-              Start Free
-            </Button>
+            <>
+              <Link href="/login" className="hidden sm:block">
+                <Button size="sm" variant="ghost">
+                  Sign in
+                </Button>
+              </Link>
+              <Link href="/login?tab=signup" className="hidden sm:block">
+                <Button size="sm">Start Free</Button>
+              </Link>
+            </>
           )}
           <button
             className="flex h-10 w-10 items-center justify-center rounded-xl border border-border md:hidden"
@@ -78,7 +81,7 @@ export function Navbar() {
       </nav>
 
       {mobileOpen && (
-        <div className="glass-strong border-b border-border md:hidden">
+        <div className="border-b border-border bg-background/95 backdrop-blur md:hidden">
           <div className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4">
             {NAV_LINKS.map((link) => (
               <Link
@@ -91,15 +94,19 @@ export function Navbar() {
               </Link>
             ))}
             {!user && (
-              <Button
-                className="mt-2"
-                onClick={() => {
-                  setMobileOpen(false);
-                  openLogin("/dashboard");
-                }}
-              >
-                Start Free
-              </Button>
+              <div className="mt-2 flex flex-col gap-2">
+                <Link href="/login" onClick={() => setMobileOpen(false)}>
+                  <Button variant="outline" className="w-full">
+                    Sign in
+                  </Button>
+                </Link>
+                <Link
+                  href="/login?tab=signup"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  <Button className="w-full">Start Free</Button>
+                </Link>
+              </div>
             )}
           </div>
         </div>

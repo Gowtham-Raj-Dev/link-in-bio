@@ -20,14 +20,14 @@
 }
 
 .dark {
-  --background: #05060f;
+  --background: #000000;
   --foreground: #f8fafc;
-  --card: #0c0e1a;
+  --card: #0a0a0a;
   --card-foreground: #f8fafc;
-  --muted: #131626;
-  --muted-foreground: #94a3b8;
-  --border: #1e2336;
-  --input: #1e2336;
+  --muted: #141414;
+  --muted-foreground: #a1a1aa;
+  --border: #1f1f22;
+  --input: #1f1f22;
   --ring: #818cf8;
   --primary: #818cf8;
   --primary-foreground: #0b1120;
@@ -106,6 +106,13 @@ body {
   filter: blur(120px);
   opacity: 0.35;
   animation: float 18s ease-in-out infinite;
+}
+
+/* Keep the hero (and other aurora sections) reading as proper black in
+   dark mode — only a faint colored glow instead of a full color wash. */
+.dark .aurora-bg::before,
+.dark .aurora-bg::after {
+  opacity: 0.14;
 }
 .aurora-bg::before {
   background: #6366f1;

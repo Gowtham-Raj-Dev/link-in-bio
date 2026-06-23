@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+export const dynamic = "force-static";
 import { BRAND } from "@/lib/constants";
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? BRAND.url;

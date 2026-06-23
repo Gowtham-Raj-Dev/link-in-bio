@@ -1,0 +1,22 @@
+Here are the keys to copy-paste into GitHub Secrets:
+
+Name: NEXT_PUBLIC_FIREBASE_API_KEY
+Secret: AIzaSyD5RaJlbbV_NRXo10hvPxmBO3g_cF0ETAk
+
+Name: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+Secret: link-in-bio-e5fa5.firebaseapp.com
+
+Name: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+Secret: link-in-bio-e5fa5
+
+Name: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+Secret: link-in-bio-e5fa5.firebasestorage.app
+
+Name: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+Secret: 842856135773
+
+Name: NEXT_PUBLIC_FIREBASE_APP_ID
+Secret: 1:842856135773:web:0034b40ff109a8517ba1b4
+
+Name: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
+Secret: G-FSKCYF73PT

@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   type Auth,
 } from "firebase/auth";
+import { getFirestore, type Firestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -43,6 +44,18 @@ export function getFirebaseAuth(): Auth | null {
     authInstance = getAuth(firebaseApp);
   }
   return authInstance;
+}
+
+let firestoreInstance: Firestore | null = null;
+
+export function getFirebaseDb(): Firestore | null {
+  if (typeof window === "undefined") return null;
+  const firebaseApp = getFirebaseApp();
+  if (!firebaseApp) return null;
+  if (!firestoreInstance) {
+    firestoreInstance = getFirestore(firebaseApp);
+  }
+  return firestoreInstance;
 }
 
 export const googleProvider = new GoogleAuthProvider();

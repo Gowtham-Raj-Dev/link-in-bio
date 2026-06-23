@@ -8,18 +8,22 @@ import {
   ExternalLink,
   LayoutGrid,
   Link2,
+  LogOut,
   Menu,
   Palette,
   Settings,
   Share2,
   UserCircle,
   X,
+  Eye,
 } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Avatar } from "@/components/auth/user-menu";
 import { useAuth } from "@/lib/auth-context";
 import { useAppData } from "@/hooks/use-app-data";
+import { Modal } from "@/components/ui/modal";
+import { ProfileView } from "@/components/profile/profile-view";
 import { cn } from "@/lib/utils";
 
 const NAV = [
@@ -36,6 +40,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const { user, signOut } = useAuth();
   const { data } = useAppData();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const username = data?.profile.username;
 
@@ -93,9 +98,14 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           </div>
         )}
         <button
-          onClick={() => signOut()}
-          className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          onClick={() => {
+            if (window.confirm("Are you sure you want to sign out?")) {
+              signOut();
+            }
+          }}
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium text-red-500 transition-colors hover:bg-red-500/10"
         >
+          <LogOut className="h-[18px] w-[18px]" />
           Sign out
         </button>
       </div>
@@ -144,16 +154,34 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             </h1>
           </div>
           <div className="flex items-center gap-2">
-            <span className="hidden items-center gap-1.5 rounded-full bg-muted px-3 py-1.5 text-xs text-muted-foreground sm:flex">
+            <Link href="/dashboard" className="hidden items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-500 transition-colors hover:bg-emerald-500/20 sm:flex">
               <BarChart3 className="h-3.5 w-3.5" />
-              Analytics coming soon
-            </span>
+              Live Analytics Active
+            </Link>
+            <button 
+              className="flex items-center justify-center rounded-lg bg-primary/10 px-3 py-1.5 text-sm font-medium text-primary hover:bg-primary/20 lg:hidden"
+              onClick={() => setPreviewOpen(true)}
+            >
+              <Eye className="mr-1.5 h-4 w-4" />
+              Preview
+            </button>
             <ThemeToggle />
           </div>
         </header>
 
         <main className="flex-1 p-5 sm:p-8">{children}</main>
       </div>
+
+      {/* Mobile Live Preview Modal */}
+      <Modal 
+        open={previewOpen} 
+        onClose={() => setPreviewOpen(false)} 
+        className="w-[300px] max-w-[300px] mx-auto p-0 overflow-hidden rounded-[2.5rem] border-[8px] border-zinc-950 shadow-2xl bg-black ring-1 ring-white/10"
+      >
+        <div className="h-[600px] max-h-[80vh] w-full overflow-y-auto no-scrollbar">
+          {data && <ProfileView data={data} preview />}
+        </div>
+      </Modal>
     </div>
   );
 }

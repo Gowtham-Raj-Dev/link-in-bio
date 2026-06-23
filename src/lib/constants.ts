@@ -11,17 +11,17 @@ export const BRAND = {
 };
 
 export const PRIVACY_NOTICE =
-  "We believe your data belongs to you. Currently LinkinBio stores your profile information only inside your browser using local storage. We do not store your links, profile content, analytics, or personal data on our servers. Google Sign-In is used only to identify your account and provide a personalized experience.";
+  "We believe your data belongs to you. LinkinBio stores your profile information and analytics securely in the cloud using Firebase, ensuring it syncs seamlessly across your devices. We do not sell your personal data. Google Sign-In is used exclusively to identify your account and protect your data.";
 
 export const COMING_SOON = [
-  "Cloud Sync",
-  "Custom Domains",
-  "Live Analytics",
-  "Team Accounts",
-  "Premium Themes",
-  "Advanced Branding",
-  "Monetization Tools",
-  "Pricing Plans",
+  "Cloud Data Sync",
+  "Custom Profile URLs",
+  "Live Real-time Analytics",
+  "Unlimited Smart Links",
+  "Premium SaaS Themes",
+  "Animated SVG Backgrounds",
+  "Advanced Pixel Styling",
+  "100% Free Forever",
 ];
 
 export const FEATURES = [
@@ -57,9 +57,9 @@ export const FEATURES = [
   },
   {
     icon: "BarChart3",
-    title: "Future Analytics",
+    title: "Real-time Analytics",
     description:
-      "Profile views, link clicks and audience growth insights are on the roadmap.",
+      "Track profile views, individual link clicks, and audience growth instantly on your dashboard.",
   },
 ];
 
@@ -101,33 +101,33 @@ export const HOW_IT_WORKS = [
 export const ROADMAP = [
   {
     phase: "Phase 1",
-    title: "Local Profile Builder",
+    title: "Smart Profile Builder",
     description:
-      "Build your page entirely in your browser. Fast, private, and free.",
+      "Build your page entirely in your browser with our fast, intuitive editor.",
     status: "live" as const,
   },
   {
     phase: "Phase 2",
-    title: "Cloud Storage",
-    description: "Securely sync your profile across all of your devices.",
-    status: "soon" as const,
+    title: "Cloud Storage Sync",
+    description: "Securely sync your profile across all of your devices automatically.",
+    status: "live" as const,
   },
   {
     phase: "Phase 3",
     title: "Analytics Dashboard",
-    description: "Track views, clicks and audience growth in real time.",
-    status: "soon" as const,
+    description: "Track views, individual link clicks, and audience growth in real time.",
+    status: "live" as const,
   },
   {
     phase: "Phase 4",
-    title: "Custom Domains",
-    description: "Connect your own domain for a fully branded presence.",
-    status: "soon" as const,
+    title: "Premium Themes & Styling",
+    description: "Access advanced background animations, CSS effects, and premium Google fonts.",
+    status: "live" as const,
   },
   {
     phase: "Phase 5",
-    title: "Premium Features",
-    description: "Monetization tools, team accounts and advanced branding.",
+    title: "Custom Domains & Monetization",
+    description: "Connect your own domain and unlock advanced creator monetization tools.",
     status: "soon" as const,
   },
 ];
@@ -135,24 +135,24 @@ export const ROADMAP = [
 export const FAQS = [
   {
     question: "Is LinkinBio free?",
-    answer: "Yes. All current features are free.",
+    answer: "Yes. All core features including themes and links are free.",
   },
   {
     question: "Do you store my profile?",
-    answer: "No. Everything is stored locally in your browser.",
+    answer: "Yes. Your profile and analytics are securely stored in the cloud using Firebase so you can access them from any device.",
   },
   {
     question: "Why Google Login?",
     answer:
-      "To uniquely identify users and provide a personalized experience.",
+      "To uniquely identify your account, keep your data secure, and provide a seamless cross-device experience without remembering passwords.",
   },
   {
-    question: "Will cloud sync be available?",
-    answer: "Yes. It is part of our future roadmap.",
+    question: "Is cloud sync available?",
+    answer: "Yes! Your profile is instantly saved and synced to the cloud in real-time.",
   },
   {
-    question: "Will analytics be available?",
-    answer: "Yes. Advanced analytics are coming soon.",
+    question: "Are analytics available?",
+    answer: "Yes! A full real-time dashboard tracking profile views and specific link clicks is fully live.",
   },
 ];
 

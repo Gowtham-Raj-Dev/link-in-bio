@@ -8,6 +8,9 @@ import { BrandIcon } from "@/components/brand/brand-icon";
 import { getTheme } from "@/lib/themes";
 import { SOCIAL_PLATFORMS } from "@/lib/constants";
 import { withProtocol } from "@/lib/utils";
+import { getFirebaseDb } from "@/lib/firebase";
+import { doc, setDoc, increment } from "firebase/firestore";
+import { BackgroundEffects } from "./background-effects";
 import type { AppData, SocialPlatform } from "@/lib/types";
 
 interface ProfileViewProps {
@@ -36,12 +39,58 @@ export function ProfileView({ data, preview = false }: ProfileViewProps) {
           transition: { delay: 0.1 + i * 0.07, duration: 0.45 },
         };
 
+  const handleLinkClick = (id: string) => {
+    if (!preview && profile.username) {
+      try {
+        const db = getFirebaseDb();
+        if (db) {
+          const viewsRef = doc(db, "analytics", profile.username);
+          setDoc(viewsRef, { 
+            clicks: increment(1),
+            [`linkClicks.${id}`]: increment(1)
+          }, { merge: true }).catch(console.error);
+        }
+      } catch (e) {
+        // ignore
+      }
+    }
+  };
+
+  let bgValue = profile.customBg || theme.background;
+  if (bgValue.includes("url(") && bgValue.includes(" center/cover no-repeat fixed")) {
+    bgValue = bgValue.replace(" center/cover no-repeat fixed", "");
+  }
+  const isImageOrGradient = bgValue.includes("url(") || bgValue.includes("gradient(");
+
   return (
     <div
-      className="flex min-h-full w-full flex-col items-center px-5 py-12"
-      style={{ background: theme.background, color: theme.text }}
+      className="relative flex min-h-full w-full flex-col items-center px-5 py-12"
+      style={{ 
+        ...(isImageOrGradient ? { backgroundImage: bgValue } : { backgroundColor: bgValue }),
+        backgroundPosition: profile.bgPosition || "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        color: profile.customColor || theme.text,
+        fontFamily: profile.fontFamily || "inherit" 
+      }}
     >
-      <div className="w-full max-w-md">
+      {/* Background Adjustments Overlay */}
+      {(profile.bgOpacity !== undefined || profile.bgBlur !== undefined) && (
+        <div 
+          className="absolute inset-0 z-0" 
+          style={{ 
+            backgroundColor: profile.bgOpacity ? `rgba(0,0,0,${profile.bgOpacity / 100})` : 'transparent',
+            backdropFilter: profile.bgBlur ? `blur(${profile.bgBlur}px)` : 'none',
+            WebkitBackdropFilter: profile.bgBlur ? `blur(${profile.bgBlur}px)` : 'none',
+          }} 
+        />
+      )}
+
+      <div className="absolute inset-0 z-0">
+        <BackgroundEffects themeId={data.themeId} style={profile.backgroundStyle} />
+      </div>
+
+      <div className="relative z-10 w-full max-w-md">
         {/* Avatar */}
         <div className="flex flex-col items-center text-center">
           {profile.avatar ? (
@@ -106,6 +155,7 @@ export function ProfileView({ data, preview = false }: ProfileViewProps) {
                 href={withProtocol(socials[s.key as SocialPlatform]!)}
                 target={target}
                 rel="noopener noreferrer"
+                onClick={() => handleLinkClick(s.key)}
                 aria-label={s.label}
                 className="flex h-10 w-10 items-center justify-center rounded-full transition-transform hover:scale-110"
                 style={{
@@ -130,36 +180,85 @@ export function ProfileView({ data, preview = false }: ProfileViewProps) {
               No links yet. Add some from your dashboard.
             </p>
           )}
-          {links.map((link, i) => (
-            <Wrapper key={link.id} {...itemProps(i)}>
-              <a
-                href={withProtocol(link.url)}
-                target={target}
-                rel="noopener noreferrer"
-                className="group flex w-full items-center gap-3.5 rounded-xl px-4 py-2.5 shadow-sm transition-all hover:scale-[1.02] hover:shadow-md active:scale-[0.99]"
-                style={{
-                  background: theme.buttonBg,
-                  color: theme.buttonText,
-                  border: theme.buttonBorder,
-                  backdropFilter: theme.glass ? "blur(8px)" : undefined,
-                }}
-              >
-                <div className="flex shrink-0 items-center justify-center opacity-80 transition-opacity group-hover:opacity-100">
-                  <Icon name={link.icon} className="h-5 w-5" />
-                </div>
-                <div className="flex w-full flex-col overflow-hidden text-left">
-                  <span className="w-full truncate text-[14px] font-semibold leading-tight tracking-wide">
+          {links.map((link, i) => {
+            if (link.type === "header") {
+              return (
+                <Wrapper key={link.id} {...itemProps(i)} className="pt-5 pb-2">
+                  <h3 className="text-center text-[15px] font-bold tracking-widest opacity-90" style={{ color: theme.text }}>
                     {link.title}
-                  </span>
-                  {link.url && (
-                    <span className="mt-[2px] w-full truncate text-[11px] font-medium leading-none opacity-60">
-                      {link.url.replace(/^https?:\/\/(www\.)?/, "")}
-                    </span>
-                  )}
-                </div>
-              </a>
-            </Wrapper>
-          ))}
+                  </h3>
+                </Wrapper>
+              );
+            }
+
+            let embedUrl = null;
+            if (link.url) {
+              try {
+                const u = new URL(link.url.startsWith("http") ? link.url : `https://${link.url}`);
+                if (u.hostname.includes("youtube.com") && u.searchParams.get("v")) {
+                  embedUrl = `https://www.youtube.com/embed/${u.searchParams.get("v")}`;
+                } else if (u.hostname.includes("youtu.be")) {
+                  embedUrl = `https://www.youtube.com/embed/${u.pathname.slice(1)}`;
+                } else if (u.hostname.includes("spotify.com")) {
+                  embedUrl = `https://open.spotify.com/embed${u.pathname}`;
+                }
+              } catch (e) {}
+            }
+
+            return (
+              <Wrapper key={link.id} {...itemProps(i)}>
+                {embedUrl ? (
+                  <div
+                    className={`overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-md ${
+                      link.animation && link.animation !== "none" ? `anim-${link.animation}` : ""
+                    }`}
+                    style={{
+                      borderColor: theme.buttonBorder,
+                      background: theme.buttonBg,
+                    }}
+                  >
+                    <iframe
+                      src={embedUrl}
+                      className="h-[152px] w-full sm:h-[180px]"
+                      frameBorder="0"
+                      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                      loading="lazy"
+                    />
+                  </div>
+                ) : (
+                  <a
+                    href={withProtocol(link.url)}
+                    target={target}
+                    rel="noopener noreferrer"
+                    onClick={() => handleLinkClick(link.id)}
+                    className={`group flex w-full items-center gap-3.5 rounded-xl px-4 py-2.5 shadow-sm transition-all hover:scale-[1.02] hover:shadow-md active:scale-[0.99] ${
+                      link.animation && link.animation !== "none" ? `anim-${link.animation}` : ""
+                    }`}
+                    style={{
+                      background: theme.buttonBg,
+                      color: theme.buttonText,
+                      border: theme.buttonBorder,
+                      backdropFilter: theme.glass ? "blur(8px)" : undefined,
+                    }}
+                  >
+                    <div className="flex shrink-0 items-center justify-center opacity-80 transition-opacity group-hover:opacity-100">
+                      <Icon name={link.icon} className="h-5 w-5" />
+                    </div>
+                    <div className="flex w-full flex-col overflow-hidden text-left">
+                      <span className="w-full truncate text-[14px] font-semibold leading-tight tracking-wide">
+                        {link.title}
+                      </span>
+                      {link.url && (
+                        <span className="mt-[2px] w-full truncate text-[11px] font-medium leading-none opacity-60">
+                          {link.url.replace(/^https?:\/\/(www\.)?/, "")}
+                        </span>
+                      )}
+                    </div>
+                  </a>
+                )}
+              </Wrapper>
+            );
+          })}
         </div>
 
         {/* Footer */}

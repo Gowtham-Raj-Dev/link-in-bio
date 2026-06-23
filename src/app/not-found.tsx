@@ -1,8 +1,28 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/brand/logo";
+import { PublicProfileClient } from "./u/[username]/client-page";
 
 export default function NotFound() {
+  const [username, setUsername] = useState<string | null>(null);
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    if (path.startsWith("/u/")) {
+      const u = path.split("/u/")[1]?.split("/")[0];
+      if (u) {
+        setUsername(u);
+      }
+    }
+  }, []);
+
+  if (username) {
+    return <PublicProfileClient username={username} />;
+  }
+
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
       <div className="aurora-bg" />

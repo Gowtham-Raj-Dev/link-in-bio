@@ -50,21 +50,10 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <ThemeToggle />
           {user ? (
-            <>
-              <Link href="/dashboard" className="hidden sm:block">
-                <Button size="sm" variant="outline">
-                  Dashboard
-                </Button>
-              </Link>
-              <UserMenu />
-            </>
+            <UserMenu />
           ) : (
             <>
-              <Link href="/login" className="hidden sm:block">
-                <Button size="sm" variant="ghost">
-                  Sign in
-                </Button>
-              </Link>
+
               <Link href="/login?tab=signup" className="hidden sm:block">
                 <Button size="sm">Start Free</Button>
               </Link>
@@ -95,11 +84,7 @@ export function Navbar() {
             ))}
             {!user && (
               <div className="mt-2 flex flex-col gap-2">
-                <Link href="/login" onClick={() => setMobileOpen(false)}>
-                  <Button variant="outline" className="w-full">
-                    Sign in
-                  </Button>
-                </Link>
+
                 <Link
                   href="/login?tab=signup"
                   onClick={() => setMobileOpen(false)}

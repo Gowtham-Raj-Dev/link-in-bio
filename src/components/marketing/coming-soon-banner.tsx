@@ -14,7 +14,7 @@ export function ComingSoonBanner({ className }: { className?: string }) {
       <div className="mb-4 flex items-center gap-2">
         <Sparkles className="h-4 w-4 text-primary" />
         <span className="text-sm font-semibold uppercase tracking-wider text-primary">
-          Coming Soon
+          Now Available
         </span>
       </div>
       <div className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">

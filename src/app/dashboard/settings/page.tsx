@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Download, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input, Label } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Modal } from "@/components/ui/modal";
 import { PrivacyNotice } from "@/components/marketing/privacy-notice";
@@ -91,6 +92,32 @@ export default function SettingsPage() {
               />
             </div>
           ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>SEO & Meta Tags</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="seoTitle">Meta Title</Label>
+            <Input
+              id="seoTitle"
+              value={data.settings.seoTitle || ""}
+              onChange={(e) => update((prev) => ({ ...prev, settings: { ...prev.settings, seoTitle: e.target.value } }))}
+              placeholder="My Awesome Profile"
+            />
+          </div>
+          <div>
+            <Label htmlFor="seoDesc">Meta Description</Label>
+            <Input
+              id="seoDesc"
+              value={data.settings.seoDescription || ""}
+              onChange={(e) => update((prev) => ({ ...prev, settings: { ...prev.settings, seoDescription: e.target.value } }))}
+              placeholder="Check out my links and social media!"
+            />
+          </div>
         </CardContent>
       </Card>
 

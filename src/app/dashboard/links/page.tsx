@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, Link2, Pencil, Plus, Trash2, Search } from "lucide-react";
+import { GripVertical, Link2, Pencil, Plus, Trash2, Search, Type } from "lucide-react";
 import { icons } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,8 @@ import { Modal } from "@/components/ui/modal";
 import { Icon } from "@/components/ui/icon";
 import { PreviewFrame } from "@/components/profile/preview-frame";
 import { useAppData } from "@/hooks/use-app-data";
+import { getFirebaseDb } from "@/lib/firebase";
+import { doc, onSnapshot } from "firebase/firestore";
 import { LINK_ICONS } from "@/lib/constants";
 import { createId, cn } from "@/lib/utils";
 import type { LinkItem } from "@/lib/types";
@@ -36,6 +38,7 @@ export default function LinksPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [iconSearch, setIconSearch] = useState("");
   const [visibleCount, setVisibleCount] = useState(100);
+  const [analytics, setAnalytics] = useState<{ linkClicks?: Record<string, number> }>({});
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
@@ -44,6 +47,20 @@ export default function LinksPage() {
   useEffect(() => {
     if (data) setLinks(data.links);
   }, [data]);
+
+  useEffect(() => {
+    if (ready && data?.profile?.username) {
+      const db = getFirebaseDb();
+      if (db) {
+        const unsub = onSnapshot(doc(db, "analytics", data.profile.username), (docSnap) => {
+          if (docSnap.exists()) {
+             setAnalytics(docSnap.data() as any);
+          }
+        });
+        return () => unsub();
+      }
+    }
+  }, [ready, data]);
 
   if (!ready || !data) return <div className="h-96 rounded-2xl skeleton" />;
 
@@ -61,9 +78,13 @@ export default function LinksPage() {
   };
 
   const openAdd = () => {
-    setEditing({ id: createId(), title: "", url: "", icon: "Link2" });
+    setEditing({ id: createId(), title: "", url: "", icon: "Link2", animation: "none", type: "link" });
     setIconSearch("");
     setVisibleCount(100);
+    setModalOpen(true);
+  };
+  const openAddHeader = () => {
+    setEditing({ id: createId(), title: "", url: "", icon: "Link2", type: "header" });
     setModalOpen(true);
   };
   const openEdit = (link: LinkItem) => {
@@ -74,7 +95,7 @@ export default function LinksPage() {
   };
 
   const saveLink = () => {
-    if (!editing || !editing.title.trim() || !editing.url.trim()) return;
+    if (!editing || !editing.title.trim() || (editing.type !== "header" && !editing.url.trim())) return;
     const exists = links.some((l) => l.id === editing.id);
     persist(
       exists
@@ -98,9 +119,14 @@ export default function LinksPage() {
               Add, edit and drag to reorder your links.
             </p>
           </div>
-          <Button onClick={openAdd}>
-            <Plus className="h-4 w-4" /> Add Link
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={openAddHeader}>
+              <Type className="h-4 w-4" /> Add Header
+            </Button>
+            <Button onClick={openAdd}>
+              <Plus className="h-4 w-4" /> Add Link
+            </Button>
+          </div>
         </div>
 
         {links.length === 0 ? (
@@ -128,6 +154,7 @@ export default function LinksPage() {
                   <SortableLink
                     key={link.id}
                     link={link}
+                    clicks={analytics.linkClicks?.[link.id] || 0}
                     onEdit={() => openEdit(link)}
                     onDelete={() => deleteLink(link.id)}
                   />
@@ -155,12 +182,14 @@ export default function LinksPage() {
                 onChange={(e) =>
                   setEditing({ ...editing, title: e.target.value })
                 }
-                placeholder="My YouTube channel"
+                placeholder={editing.type === "header" ? "My Socials" : "My YouTube channel"}
                 autoFocus
               />
             </div>
-            <div>
-              <Label htmlFor="url">URL</Label>
+            {editing.type !== "header" && (
+              <>
+                <div>
+                  <Label htmlFor="url">URL</Label>
               <Input
                 id="url"
                 value={editing.url}
@@ -259,12 +288,34 @@ export default function LinksPage() {
                 })()}
               </div>
             </div>
+            
+            <div className="space-y-3">
+              <Label>Highlight Animation ✨</Label>
+              <div className="flex flex-wrap gap-2">
+                {["none", "pulse", "bounce", "wobble"].map((anim) => (
+                  <Button
+                    key={anim}
+                    type="button"
+                    variant={editing.animation === anim || (anim === "none" && !editing.animation) ? "primary" : "outline"}
+                    size="sm"
+                    onClick={() => setEditing({ ...editing, animation: anim as any })}
+                    className="capitalize"
+                  >
+                    {anim}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+              </>
+            )}
+            
             <Button
               className="w-full"
               onClick={saveLink}
-              disabled={!editing.title.trim() || !editing.url.trim()}
+              disabled={!editing.title.trim() || (editing.type !== "header" && !editing.url.trim())}
             >
-              Save link
+              Save {editing.type === "header" ? "header" : "link"}
             </Button>
           </div>
         )}
@@ -275,10 +326,12 @@ export default function LinksPage() {
 
 function SortableLink({
   link,
+  clicks,
   onEdit,
   onDelete,
 }: {
   link: LinkItem;
+  clicks: number;
   onEdit: () => void;
   onDelete: () => void;
 }) {
@@ -303,12 +356,30 @@ function SortableLink({
         <GripVertical className="h-5 w-5" />
       </button>
       <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
-        <Icon name={link.icon} className="h-5 w-5" />
+        {link.type === "header" ? (
+          <Type className="h-5 w-5" />
+        ) : (
+          <Icon name={link.icon} className="h-5 w-5" />
+        )}
       </span>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold">{link.title}</p>
-        <p className="truncate text-xs text-muted-foreground">{link.url}</p>
+        {link.type === "header" ? (
+          <p className="truncate text-sm font-bold uppercase tracking-widest text-foreground">{link.title}</p>
+        ) : (
+          <>
+            <p className="truncate text-sm font-semibold">{link.title}</p>
+            <p className="truncate text-xs text-muted-foreground">{link.url}</p>
+          </>
+        )}
       </div>
+      
+      {link.type !== "header" && (
+        <div className="hidden sm:flex flex-col items-end pr-2 pl-4">
+          <span className="text-sm font-bold text-emerald-500">{clicks.toLocaleString()}</span>
+          <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Clicks</span>
+        </div>
+      )}
+
       <Button variant="ghost" size="icon" onClick={onEdit} aria-label="Edit">
         <Pencil className="h-4 w-4" />
       </Button>

@@ -8,97 +8,24 @@ import { LayoutDashboard, LogOut, User as UserIcon } from "lucide-react";
 import { useAuth } from "@/lib/auth-context";
 
 export function UserMenu() {
-  const { user, signOut } = useAuth();
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, []);
+  const { user } = useAuth();
 
   if (!user) return null;
 
-  const handleSignOut = async () => {
-    await signOut();
-    setOpen(false);
-    router.push("/");
-  };
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 rounded-full border border-border bg-card p-0.5 pr-3 transition-colors hover:bg-muted"
-      >
-        <Avatar user={user} />
-        <span className="hidden max-w-28 truncate text-sm font-medium sm:block">
-          {user.displayName?.split(" ")[0] ?? "Account"}
-        </span>
-      </button>
-
-      {open && (
-        <div className="absolute right-0 z-50 mt-2 w-60 overflow-hidden rounded-2xl border border-border bg-card shadow-xl">
-          <div className="flex items-center gap-3 border-b border-border p-4">
-            <Avatar user={user} size={40} />
-            <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">
-                {user.displayName ?? "Creator"}
-              </p>
-              <p className="truncate text-xs text-muted-foreground">
-                {user.email}
-              </p>
-            </div>
-          </div>
-          <div className="p-1.5">
-            <MenuLink href="/dashboard" icon={<LayoutDashboard className="h-4 w-4" />} onClick={() => setOpen(false)}>
-              Dashboard
-            </MenuLink>
-            <MenuLink href="/dashboard/profile" icon={<UserIcon className="h-4 w-4" />} onClick={() => setOpen(false)}>
-              My Profile
-            </MenuLink>
-            <button
-              onClick={handleSignOut}
-              className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium text-red-500 transition-colors hover:bg-red-500/10"
-            >
-              <LogOut className="h-4 w-4" />
-              Sign out
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function MenuLink({
-  href,
-  icon,
-  children,
-  onClick,
-}: {
-  href: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-  onClick?: () => void;
-}) {
   return (
     <Link
-      href={href}
-      onClick={onClick}
-      className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors hover:bg-muted"
+      href="/dashboard"
+      className="flex items-center gap-2 rounded-full border border-border bg-card p-0.5 pr-3 transition-colors hover:bg-muted"
     >
-      {icon}
-      {children}
+      <Avatar user={user} />
+      <span className="hidden max-w-28 truncate text-sm font-medium sm:block">
+        {user.displayName?.split(" ")[0] ?? "My Profile"}
+      </span>
     </Link>
   );
 }
+
+
 
 export function Avatar({
   user,

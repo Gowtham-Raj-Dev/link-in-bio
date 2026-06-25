@@ -17,12 +17,16 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(BRAND.url),
   title: {
-    default: `${BRAND.name} — ${BRAND.tagline}`,
-    template: `%s · ${BRAND.name}`,
+    default: `${BRAND.name} by CodeLove — ${BRAND.tagline}`,
+    template: `%s · ${BRAND.name} by CodeLove`,
   },
   description: BRAND.description,
   applicationName: BRAND.name,
   keywords: [
+    "CodeLove",
+    "CodeLove link in bio",
+    "CodeLove projects",
+    "Gowtham CodeLove",
     "link in bio",
     "bio link",
     "linktree alternative",
@@ -38,13 +42,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: BRAND.name,
-    title: `${BRAND.name} — ${BRAND.tagline}`,
+    title: `${BRAND.name} by CodeLove — ${BRAND.tagline}`,
     description: BRAND.description,
     url: BRAND.url,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${BRAND.name} — ${BRAND.tagline}`,
+    title: `${BRAND.name} by CodeLove — ${BRAND.tagline}`,
     description: BRAND.description,
   },
   robots: {

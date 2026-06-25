@@ -4,8 +4,10 @@ import { PublicProfileClient } from "./client-page";
 // Note: This returns an empty array because usernames are dynamically generated.
 // If hosted on a static server (like GitHub Pages), direct visits to /u/[username]
 // may return a 404. For full dynamic support, consider deploying to Vercel or Firebase App Hosting.
-export function generateStaticParams() {
-  return [];
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  return [{ username: "demo" }];
 }
 
 export default async function PublicProfilePage({

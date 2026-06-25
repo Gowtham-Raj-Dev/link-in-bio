@@ -36,7 +36,11 @@ export default function OverviewPage() {
       if (db) {
         const unsub = onSnapshot(doc(db, "analytics", data.profile.username), (docSnap) => {
           if (docSnap.exists()) {
-             setAnalytics(docSnap.data() as { views: number, clicks: number });
+             const docData = docSnap.data();
+             setAnalytics({
+               views: docData?.views || 0,
+               clicks: docData?.clicks || 0,
+             });
           }
         });
         return () => unsub();
@@ -191,8 +195,8 @@ export default function OverviewPage() {
             <h3 className="text-sm font-medium text-muted-foreground">Profile Views Over Time</h3>
             <p className="text-2xl font-bold">{analytics.views.toLocaleString()}</p>
           </div>
-          <div className="h-[240px] w-full">
-            <ResponsiveContainer width="100%" height="100%">
+          <div className="h-[240px] w-full min-w-0">
+            <ResponsiveContainer width="100%" height="100%" minWidth={0}>
               <AreaChart data={chartData} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">

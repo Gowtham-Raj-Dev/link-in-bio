@@ -1,26 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/brand/logo";
 import { PublicProfileClient } from "./u/[username]/client-page";
 
 export default function NotFound() {
-  const [username, setUsername] = useState<string | null>(null);
+  const pathname = usePathname();
 
-  useEffect(() => {
-    const path = window.location.pathname;
-    if (path.startsWith("/u/")) {
-      const u = path.split("/u/")[1]?.split("/")[0];
-      if (u) {
-        setUsername(u);
-      }
+  // If the path is a profile link, render the profile client immediately to prevent 404 flash.
+  if (pathname?.startsWith("/u/")) {
+    const username = pathname.split("/u/")[1]?.split("/")[0];
+    if (username) {
+      return <PublicProfileClient username={username} />;
     }
-  }, []);
-
-  if (username) {
-    return <PublicProfileClient username={username} />;
   }
 
   return (

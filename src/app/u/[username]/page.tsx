@@ -1,9 +1,5 @@
 import { PublicProfileClient } from "./client-page";
 
-export function generateStaticParams() {
-  return [{ username: "demo" }];
-}
-
 export default async function PublicProfilePage({
   params,
 }: {

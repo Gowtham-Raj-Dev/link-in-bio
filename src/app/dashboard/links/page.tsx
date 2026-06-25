@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { GripVertical, Link2, Pencil, Plus, Trash2, Search, Type } from "lucide-react";
+import { GripVertical, Link2, Pencil, Plus, Trash2, Search, Type, Zap } from "lucide-react";
 import { icons } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -83,10 +83,6 @@ export default function LinksPage() {
     setVisibleCount(100);
     setModalOpen(true);
   };
-  const openAddHeader = () => {
-    setEditing({ id: createId(), title: "", url: "", icon: "Link2", type: "header" });
-    setModalOpen(true);
-  };
   const openEdit = (link: LinkItem) => {
     setEditing({ ...link });
     setIconSearch("");
@@ -109,6 +105,22 @@ export default function LinksPage() {
   const deleteLink = (id: string) =>
     persist(links.filter((l) => l.id !== id));
 
+  const addSampleLinks = () => {
+    const samples: LinkItem[] = [
+      { id: createId(), title: "My Portfolio", url: "https://example.com", icon: "Globe", animation: "none", type: "link" },
+      { id: createId(), title: "Instagram", url: "https://instagram.com", icon: "Instagram", animation: "none", type: "link" },
+      { id: createId(), title: "Twitter", url: "https://twitter.com", icon: "Twitter", animation: "none", type: "link" },
+      { id: createId(), title: "GitHub", url: "https://github.com", icon: "Github", animation: "none", type: "link" },
+      { id: createId(), title: "LinkedIn", url: "https://linkedin.com", icon: "Linkedin", animation: "none", type: "link" },
+      { id: createId(), title: "YouTube Channel", url: "https://youtube.com", icon: "Youtube", animation: "none", type: "link" },
+      { id: createId(), title: "My Blog", url: "https://example.com/blog", icon: "FileText", animation: "none", type: "link" },
+      { id: createId(), title: "Podcast", url: "https://example.com/podcast", icon: "Mic", animation: "none", type: "link" },
+      { id: createId(), title: "Newsletter", url: "https://example.com/newsletter", icon: "Mail", animation: "none", type: "link" },
+      { id: createId(), title: "Store", url: "https://example.com/store", icon: "ShoppingCart", animation: "none", type: "link" }
+    ];
+    persist([...links, ...samples]);
+  };
+
   return (
     <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_360px]">
       <div className="space-y-6">
@@ -119,12 +131,12 @@ export default function LinksPage() {
               Add, edit and drag to reorder your links.
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={openAddHeader}>
-              <Type className="h-4 w-4" /> Add Header
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" onClick={addSampleLinks}>
+              <Zap className="mr-2 h-4 w-4" /> Add Samples
             </Button>
             <Button onClick={openAdd}>
-              <Plus className="h-4 w-4" /> Add Link
+              <Plus className="mr-2 h-4 w-4" /> Add Link
             </Button>
           </div>
         </div>
@@ -138,9 +150,14 @@ export default function LinksPage() {
             <p className="mt-1 text-sm text-muted-foreground">
               Add your first link to get started.
             </p>
-            <Button className="mt-5" onClick={openAdd}>
-              <Plus className="h-4 w-4" /> Add Link
-            </Button>
+            <div className="mt-5 flex gap-2">
+              <Button variant="outline" onClick={addSampleLinks}>
+                <Zap className="mr-2 h-4 w-4" /> Add Samples
+              </Button>
+              <Button onClick={openAdd}>
+                <Plus className="mr-2 h-4 w-4" /> Add Link
+              </Button>
+            </div>
           </Card>
         ) : (
           <DndContext
@@ -233,7 +250,7 @@ export default function LinksPage() {
                           type="button"
                           onClick={() => setEditing({ ...editing, icon: name })}
                           className={cn(
-                            "flex h-10 items-center justify-center rounded-lg border transition-colors",
+                            "flex h-10 cursor-pointer items-center justify-center rounded-lg border transition-colors",
                             editing.icon === name
                               ? "border-primary bg-primary/10 text-primary"
                               : "border-border hover:bg-muted"

@@ -3,7 +3,7 @@ import { Features } from "@/components/landing/features";
 import { Why } from "@/components/landing/why";
 import { PrivacySection } from "@/components/landing/privacy-section";
 import { HowItWorks } from "@/components/landing/how-it-works";
-import { RoadmapSection } from "@/components/landing/roadmap-section";
+import { AnalyticsSection } from "@/components/landing/analytics-section";
 import { Faq } from "@/components/landing/faq";
 import { Cta } from "@/components/landing/cta";
 import { BRAND } from "@/lib/constants";
@@ -17,7 +17,7 @@ export default function HomePage() {
       <Why />
       <PrivacySection />
       <HowItWorks />
-      <RoadmapSection />
+      <AnalyticsSection />
       <Faq />
       <Cta />
       {/* Structured data for SEO / rich results */}

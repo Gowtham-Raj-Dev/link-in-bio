@@ -22,7 +22,7 @@ const TOGGLES: { key: keyof UserSettings; label: string; desc: string }[] = [
   {
     key: "showPrivacyBadge",
     label: "Show privacy badge",
-    desc: "Display a “data stored locally” badge on your public page.",
+    desc: "Display a “secure data” badge on your public page.",
   },
   {
     key: "openLinksInNewTab",

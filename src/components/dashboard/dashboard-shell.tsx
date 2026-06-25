@@ -178,8 +178,8 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         onClose={() => setPreviewOpen(false)} 
         className="w-[300px] max-w-[300px] mx-auto p-0 overflow-hidden rounded-[2.5rem] border-[8px] border-zinc-950 shadow-2xl bg-black ring-1 ring-white/10"
       >
-        <div className="h-[600px] max-h-[80vh] w-full overflow-y-auto no-scrollbar">
-          {data && <ProfileView data={data} preview />}
+        <div id="preview-scroll-container" className="h-[600px] max-h-[80vh] w-full overflow-y-auto no-scrollbar">
+          {data && <ProfileView data={data} preview scrollRootId="preview-scroll-container" />}
         </div>
       </Modal>
     </div>

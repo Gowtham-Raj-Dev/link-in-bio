@@ -14,8 +14,8 @@ export function PreviewFrame({ data }: { data: AppData }) {
           Live preview
         </div>
         <div className="mx-auto w-[300px] overflow-hidden rounded-[2.5rem] border-[8px] border-zinc-900 shadow-2xl">
-          <div className="h-[600px] overflow-y-auto no-scrollbar">
-            <ProfileView data={data} preview />
+          <div id="preview-scroll-container-desktop" className="h-[600px] overflow-y-auto no-scrollbar">
+            <ProfileView data={data} preview scrollRootId="preview-scroll-container-desktop" />
           </div>
         </div>
       </div>

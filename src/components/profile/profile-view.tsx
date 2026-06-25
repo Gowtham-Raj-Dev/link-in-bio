@@ -12,18 +12,40 @@ import { getFirebaseDb } from "@/lib/firebase";
 import { doc, setDoc, increment } from "firebase/firestore";
 import { BackgroundEffects } from "./background-effects";
 import type { AppData, SocialPlatform } from "@/lib/types";
+import { useState, useEffect, useRef } from "react";
 
 interface ProfileViewProps {
   data: AppData;
   /** Disable interactions/animation for previews. */
   preview?: boolean;
+  /** ID of the scroll container to use as root for IntersectionObserver. Defaults to null (window). */
+  scrollRootId?: string;
 }
 
 /** Renders the public-facing bio page. Shared by /u/[username] and previews. */
-export function ProfileView({ data, preview = false }: ProfileViewProps) {
+export function ProfileView({ data, preview = false, scrollRootId }: ProfileViewProps) {
   const theme = getTheme(data.themeId);
   const { profile, links, socials, settings } = data;
   const target = settings.openLinksInNewTab ? "_blank" : undefined;
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollRootId ? document.getElementById(scrollRootId) : null;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsScrolled(!entry.isIntersecting);
+      },
+      { threshold: 0, root: scrollContainer }
+    );
+
+    if (headerRef.current) {
+      observer.observe(headerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [scrollRootId]);
 
   const activeSocials = SOCIAL_PLATFORMS.filter(
     (s) => socials[s.key as SocialPlatform]
@@ -90,9 +112,34 @@ export function ProfileView({ data, preview = false }: ProfileViewProps) {
         <BackgroundEffects themeId={data.themeId} style={profile.backgroundStyle} />
       </div>
 
-      <div className="relative z-10 w-full max-w-md">
-        {/* Avatar */}
-        <div className="flex flex-col items-center text-center">
+      <div className="relative z-10 flex w-full max-w-md flex-col">
+        {/* Invisible Sticky Anchor for Animated Header */}
+        <div className="sticky top-0 z-50 -mx-5 w-[calc(100%+2.5rem)]" style={{ height: 0 }}>
+          <div 
+            className={`absolute left-0 top-0 flex w-full flex-row items-center justify-center gap-3 border-b py-3 shadow-sm transition-all duration-300 ${
+              isScrolled ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+            }`}
+            style={{ 
+              backgroundColor: theme.text.startsWith('#0') || theme.text.startsWith('#1') ? '#ffffff' : '#000000',
+              borderColor: theme.buttonBorder 
+            }}
+          >
+            {/* Name & Username */}
+            <div className="flex flex-col text-center">
+              <h1 className="text-[14px] font-bold tracking-tight leading-tight">
+                {profile.displayName || "Your Name"}
+              </h1>
+              {profile.username && (
+                <p className="text-[10px] font-medium opacity-80" style={{ color: theme.muted }}>
+                  @{profile.username}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Main Profile Header */}
+        <div ref={headerRef} className="flex flex-col items-center text-center pt-2">
           {profile.avatar ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img

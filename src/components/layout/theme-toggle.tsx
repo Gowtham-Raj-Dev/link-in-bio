@@ -15,7 +15,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label="Toggle color mode"
       title={mounted ? (mode === "dark" ? "Switch to light mode" : "Switch to dark mode") : "Toggle color mode"}
-      className="flex h-10 w-10 items-center justify-center rounded-xl border border-border text-foreground transition-colors hover:bg-muted"
+      className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-border text-foreground transition-colors hover:bg-muted"
     >
       {!mounted ? (
         <span className="h-[18px] w-[18px]" />

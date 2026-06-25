@@ -40,7 +40,7 @@ export function Navbar() {
             <Link
               key={link.label}
               href={link.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="rounded-lg cursor-pointer px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.label}
             </Link>
@@ -60,7 +60,7 @@ export function Navbar() {
             </>
           )}
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-border md:hidden"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl border border-border md:hidden"
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle menu"
           >
@@ -77,7 +77,7 @@ export function Navbar() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                className="rounded-lg cursor-pointer px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               >
                 {link.label}
               </Link>

@@ -57,13 +57,13 @@ export default function ThemesPage() {
           <div className="flex rounded-lg bg-muted p-1 sm:w-auto">
             <button 
               onClick={() => setActiveTab("colors")}
-              className={cn("flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all", activeTab === "colors" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
+              className={cn("flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all", activeTab === "colors" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
             >
               <PaletteIcon className="h-4 w-4" /> Colors
             </button>
             <button 
               onClick={() => setActiveTab("images")}
-              className={cn("flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all", activeTab === "images" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
+              className={cn("flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all", activeTab === "images" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
             >
               <ImageIcon className="h-4 w-4" /> Images
             </button>
@@ -79,7 +79,7 @@ export default function ThemesPage() {
                   key={theme.id}
                   onClick={() => selectTheme(theme.id)}
                   className={cn(
-                    "group relative overflow-hidden rounded-2xl border-2 text-left transition-all",
+                    "group relative cursor-pointer overflow-hidden rounded-2xl border-2 text-left transition-all",
                     active
                       ? "border-primary shadow-lg shadow-primary/20"
                       : "border-border hover:border-primary/40"
@@ -124,7 +124,7 @@ export default function ThemesPage() {
                   key={img.id}
                   onClick={() => selectImage(img.url)}
                   className={cn(
-                    "group relative overflow-hidden rounded-2xl border-2 text-left transition-all",
+                    "group relative cursor-pointer overflow-hidden rounded-2xl border-2 text-left transition-all",
                     isActiveImage
                       ? "border-primary shadow-lg shadow-primary/20"
                       : "border-border hover:border-primary/40"
@@ -234,7 +234,7 @@ export default function ThemesPage() {
               <input 
                 type="range" 
                 min="0" max="100" 
-                className="w-full accent-primary" 
+                className="w-full cursor-pointer accent-primary" 
                 value={data.profile.bgOpacity || 0}
                 onChange={(e) => update(p => ({...p, profile: {...p.profile, bgOpacity: parseInt(e.target.value)}}))}
               />
@@ -249,7 +249,7 @@ export default function ThemesPage() {
               <input 
                 type="range" 
                 min="0" max="20" 
-                className="w-full accent-primary" 
+                className="w-full cursor-pointer accent-primary" 
                 value={data.profile.bgBlur || 0}
                 onChange={(e) => update(p => ({...p, profile: {...p.profile, bgBlur: parseInt(e.target.value)}}))}
               />
@@ -268,7 +268,7 @@ export default function ThemesPage() {
               <input 
                 type="range" 
                 min="0" max="100" 
-                className="w-full accent-primary" 
+                className="w-full cursor-pointer accent-primary" 
                 value={(() => {
                   const v = parseInt(data.profile.bgPosition?.split(' ')[0] || "50");
                   return isNaN(v) ? 50 : v;
@@ -293,7 +293,7 @@ export default function ThemesPage() {
               <input 
                 type="range" 
                 min="0" max="100" 
-                className="w-full accent-primary" 
+                className="w-full cursor-pointer accent-primary" 
                 value={(() => {
                   const v = parseInt(data.profile.bgPosition?.split(' ')[1] || "50");
                   return isNaN(v) ? 50 : v;

@@ -140,7 +140,7 @@ export function AuthForm({
               setTab(t);
               setError(null);
             }}
-            className={`flex-1 rounded-lg py-2 text-sm font-medium transition-colors ${
+            className={`flex-1 cursor-pointer rounded-lg py-2 text-sm font-medium transition-colors ${
               tab === t
                 ? "bg-card text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"

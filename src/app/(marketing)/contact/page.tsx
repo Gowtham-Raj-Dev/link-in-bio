@@ -27,7 +27,7 @@ export default function ContactPage() {
             <InfoCard
               icon={<Mail className="h-5 w-5" />}
               title="Email us"
-              value="hello@codelove.in"
+              value="support@codelove.in"
             />
             <InfoCard
               icon={<MessageSquare className="h-5 w-5" />}

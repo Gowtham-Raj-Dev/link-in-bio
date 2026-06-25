@@ -5,19 +5,56 @@ import { Check, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Textarea } from "@/components/ui/input";
 
-const CONTACT_EMAIL = "hello@codelove.in";
+const CONTACT_EMAIL = "support@codelove.in";
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // No backend in the MVP — open the user's email client pre-filled.
-    const subject = encodeURIComponent(`LinkinBio enquiry from ${form.name}`);
-    const body = encodeURIComponent(`${form.message}\n\n— ${form.name} (${form.email})`);
-    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-    setSent(true);
+    
+    // If you have a Web3Forms Access Key in your .env.local file, it will send directly.
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+
+    if (accessKey) {
+      setIsSubmitting(true);
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            name: form.name,
+            email: form.email,
+            message: form.message,
+            subject: `Enquiry from Linkin Bio - ${form.name}`,
+            from_name: form.name,
+            Website: "Linkin Bio (linkinbio.codelove.in)"
+          }),
+        });
+
+        if (response.ok) {
+          setSent(true);
+          setForm({ name: "", email: "", message: "" });
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    } else {
+      // Fallback: Open the user's email client pre-filled.
+      const subject = encodeURIComponent(`Enquiry from Linkin Bio - ${form.name}`);
+      const body = encodeURIComponent(`Website: Linkin Bio (linkinbio.codelove.in)\n\n${form.message}\n\n— ${form.name} (${form.email})`);
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+      setSent(true);
+    }
   };
 
   return (
@@ -56,10 +93,12 @@ export function ContactForm() {
           placeholder="How can we help?"
         />
       </div>
-      <Button type="submit" className="w-full sm:w-auto">
-        {sent ? (
+      <Button type="submit" disabled={isSubmitting || sent} className="w-full sm:w-auto">
+        {isSubmitting ? (
+          "Sending..."
+        ) : sent ? (
           <>
-            <Check className="h-4 w-4" /> Opening your email…
+            <Check className="h-4 w-4" /> Message Sent
           </>
         ) : (
           <>

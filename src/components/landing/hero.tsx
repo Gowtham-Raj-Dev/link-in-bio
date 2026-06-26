@@ -24,67 +24,67 @@ const CARDS: {
   socials: SocialPlatform[];
   links: string[];
 }[] = [
-  {
-    name: "Maya Lin",
-    handle: "@mayamakes",
-    initials: "ML",
-    role: "Illustrator",
-    followers: "48.2k",
-    img: "https://i.pravatar.cc/200?img=47",
-    gradient: "linear-gradient(165deg, #1e1b4b 0%, #4338ca 100%)",
-    ring: "#818cf8",
-    socials: ["instagram", "x"],
-    links: ["🎨 Shop prints", "✏️ Free brushes"],
-  },
-  {
-    name: "Jay Cole",
-    handle: "@jaycreates",
-    initials: "JC",
-    role: "Filmmaker",
-    followers: "126k",
-    img: "https://i.pravatar.cc/200?img=12",
-    gradient: "linear-gradient(165deg, #0f172a 0%, #0e7490 100%)",
-    ring: "#22d3ee",
-    socials: ["youtube", "github"],
-    links: ["🎬 Latest video", "🎞️ My gear"],
-  },
-  {
-    name: "Aria Rivera",
-    handle: "@ariacreates",
-    initials: "AR",
-    role: "Creator",
-    followers: "312k",
-    img: "https://i.pravatar.cc/200?img=5",
-    gradient: "linear-gradient(165deg, #312e81 0%, #be185d 100%)",
-    ring: "#f472b6",
-    socials: ["instagram", "youtube", "x"],
-    links: ["🛍️ Shop presets", "📬 Newsletter", "🎙️ Podcast"],
-  },
-  {
-    name: "Leo Park",
-    handle: "@leobuilds",
-    initials: "LP",
-    role: "Developer",
-    followers: "73.5k",
-    img: "https://i.pravatar.cc/200?img=33",
-    gradient: "linear-gradient(165deg, #134e4a 0%, #15803d 100%)",
-    ring: "#34d399",
-    socials: ["github", "linkedin"],
-    links: ["💻 My projects", "📚 Free course"],
-  },
-  {
-    name: "Noor Sayed",
-    handle: "@noor.design",
-    initials: "NS",
-    role: "Designer",
-    followers: "91k",
-    img: "https://i.pravatar.cc/200?img=9",
-    gradient: "linear-gradient(165deg, #3b0764 0%, #7e22ce 100%)",
-    ring: "#c084fc",
-    socials: ["linkedin", "instagram"],
-    links: ["🎨 Portfolio", "🧩 UI kit"],
-  },
-];
+    {
+      name: "Maya Lin",
+      handle: "@mayamakes",
+      initials: "ML",
+      role: "Illustrator",
+      followers: "48.2k",
+      img: "https://i.pravatar.cc/200?img=47",
+      gradient: "linear-gradient(165deg, #1e1b4b 0%, #4338ca 100%)",
+      ring: "#818cf8",
+      socials: ["instagram", "x"],
+      links: ["🎨 Shop prints", "✏️ Free brushes"],
+    },
+    {
+      name: "Jay Cole",
+      handle: "@jaycreates",
+      initials: "JC",
+      role: "Filmmaker",
+      followers: "126k",
+      img: "https://i.pravatar.cc/200?img=12",
+      gradient: "linear-gradient(165deg, #0f172a 0%, #0e7490 100%)",
+      ring: "#22d3ee",
+      socials: ["youtube", "github"],
+      links: ["🎬 Latest video", "🎞️ My gear"],
+    },
+    {
+      name: "Aria Rivera",
+      handle: "@ariacreates",
+      initials: "AR",
+      role: "Creator",
+      followers: "312k",
+      img: "https://i.pravatar.cc/200?img=5",
+      gradient: "linear-gradient(165deg, #312e81 0%, #be185d 100%)",
+      ring: "#f472b6",
+      socials: ["instagram", "youtube", "x"],
+      links: ["🛍️ Shop presets", "📬 Newsletter", "🎙️ Podcast"],
+    },
+    {
+      name: "Leo Park",
+      handle: "@leobuilds",
+      initials: "LP",
+      role: "Developer",
+      followers: "73.5k",
+      img: "https://i.pravatar.cc/200?img=33",
+      gradient: "linear-gradient(165deg, #134e4a 0%, #15803d 100%)",
+      ring: "#34d399",
+      socials: ["github", "linkedin"],
+      links: ["💻 My projects", "📚 Free course"],
+    },
+    {
+      name: "Noor Sayed",
+      handle: "@noor.design",
+      initials: "NS",
+      role: "Designer",
+      followers: "91k",
+      img: "https://i.pravatar.cc/200?img=9",
+      gradient: "linear-gradient(165deg, #3b0764 0%, #7e22ce 100%)",
+      ring: "#c084fc",
+      socials: ["linkedin", "instagram"],
+      links: ["🎨 Portfolio", "🧩 UI kit"],
+    },
+  ];
 
 export function Hero() {
   const { user } = useAuth();
@@ -92,7 +92,7 @@ export function Hero() {
 
   return (
     <section className="relative isolate overflow-hidden bg-background">
-      <Container className="relative flex min-h-[92vh] flex-col items-center pt-20 text-center sm:pt-24">
+      <Container className="relative flex min-h-[92vh] flex-col items-center pt-10 text-center sm:pt-12">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -107,10 +107,12 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.05 }}
-          className="mt-8 max-w-4xl text-5xl font-bold leading-[1.04] tracking-tight text-foreground sm:text-6xl lg:text-7xl"
+          className="mt-8 max-w-4xl text-5xl font-bold leading-[1.04] tracking-tight text-foreground sm:text-6xl lg:text-7xl pb-2"
         >
           Turn one link into your{" "}
-          <span className="brand-text">complete online presence</span>
+          <span className="brand-shine-text">
+            complete online presence
+          </span>
         </motion.h1>
 
         <motion.p
@@ -127,28 +129,27 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
+          className="mt-10 flex flex-row items-center justify-center gap-2 sm:gap-3"
         >
           {user ? (
             <Link href="/dashboard">
-              <Button size="lg" className="w-full rounded-full px-8 sm:w-auto">
+              <Button className="h-10 rounded-full px-5 text-sm sm:h-12 sm:px-8 sm:text-base">
                 Go to Dashboard
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="ml-1 h-3.5 w-3.5 sm:ml-2 sm:h-4 sm:w-4" />
               </Button>
             </Link>
           ) : (
-            <Link href="/login?tab=signup" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full rounded-full px-8">
+            <Link href="/login?tab=signup">
+              <Button className="h-10 rounded-full px-5 text-sm sm:h-12 sm:px-8 sm:text-base">
                 Start Free
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="ml-1 h-3.5 w-3.5 sm:ml-2 sm:h-4 sm:w-4" />
               </Button>
             </Link>
           )}
-          <Link href="/u/ariacreates" className="w-full sm:w-auto">
+          <Link href="/u/ariacreates">
             <Button
-              size="lg"
               variant="outline"
-              className="w-full rounded-full border-border bg-transparent px-8 text-foreground hover:bg-muted"
+              className="h-10 rounded-full border-border bg-transparent px-5 text-sm text-foreground hover:bg-muted sm:h-12 sm:px-8 sm:text-base"
             >
               View Demo
             </Button>
@@ -159,7 +160,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.35 }}
-          className="relative z-10 mt-5 mb-8 text-xs text-muted-foreground/80 sm:mb-12"
+          className="relative z-10 mt-5 mb-16 text-xs text-muted-foreground/80 sm:mb-20"
         >
           No credit card required · Free during early access
         </motion.p>

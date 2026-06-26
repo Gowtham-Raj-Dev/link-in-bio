@@ -15,6 +15,7 @@ export interface ProfileData {
   bgOpacity?: number; // Background dimming (overlay opacity 0-100)
   bgBlur?: number; // Background blur (0-20px)
   bgPosition?: string; // Background image alignment (e.g. '50% 50%')
+  uploadedBgImages?: string[]; // Up to 5 user-uploaded background images
 }
 
 export interface LinkItem {

@@ -8,9 +8,10 @@ const FOOTER_GROUPS = [
   {
     title: "Product",
     links: [
-      { label: "Home", href: "/" },
       { label: "Features", href: "/#features" },
-      { label: "Roadmap", href: "/#roadmap" },
+      { label: "Why LinkinBio", href: "/#why" },
+      { label: "How it Works", href: "/#how-it-works" },
+      { label: "Analytics", href: "/#analytics" },
       { label: "FAQ", href: "/#faq" },
     ],
   },
@@ -73,7 +74,15 @@ export function Footer() {
             </a>
           </p>
           <p className="text-sm text-muted-foreground">
-            Founder: <span className="font-medium text-foreground">{BRAND.founder}</span>
+            Founder:{" "}
+            <a 
+              href="https://gowtham.codelove.in" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-medium text-foreground hover:underline"
+            >
+              {BRAND.founder}
+            </a>
             {" · "}© {new Date().getFullYear()} {BRAND.name}
           </p>
         </div>

@@ -193,3 +193,45 @@ html {
 .anim-wobble { animation: wobble 2s ease-in-out infinite; }
 .anim-pulse { animation: pulse-strong 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 .anim-bounce { animation: bounce-subtle 2s ease-in-out infinite; }
+
+@keyframes shine-text {
+  0% {
+    background-position: right center;
+  }
+  100% {
+    background-position: left center;
+  }
+}
+
+.shine-text {
+  background: linear-gradient(
+    90deg,
+    var(--foreground) 0%,
+    var(--foreground) 35%,
+    var(--primary) 45%,
+    var(--primary) 55%,
+    var(--foreground) 65%,
+    var(--foreground) 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine-text 5s ease-in-out infinite;
+}
+
+.brand-shine-text {
+  background: linear-gradient(
+    120deg,
+    #818cf8 0%,
+    #c084fc 35%,
+    var(--foreground) 50%,
+    #c084fc 65%,
+    #f472b6 100%
+  );
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shine-text 5s ease-in-out infinite;
+}

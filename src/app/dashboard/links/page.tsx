@@ -124,19 +124,19 @@ export default function LinksPage() {
   return (
     <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_360px]">
       <div className="space-y-6">
-        <div className="flex items-end justify-between gap-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Links</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Add, edit and drag to reorder your links.
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" onClick={addSampleLinks}>
-              <Zap className="mr-2 h-4 w-4" /> Add Samples
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:flex-wrap">
+            <Button variant="outline" onClick={addSampleLinks} className="w-full sm:w-auto">
+              <Zap className="mr-1.5 h-4 w-4 sm:mr-2" /> <span className="hidden sm:inline">Add</span> Samples
             </Button>
-            <Button onClick={openAdd}>
-              <Plus className="mr-2 h-4 w-4" /> Add Link
+            <Button onClick={openAdd} className="w-full sm:w-auto">
+              <Plus className="mr-1.5 h-4 w-4 sm:mr-2" /> Add Link
             </Button>
           </div>
         </div>
@@ -171,7 +171,7 @@ export default function LinksPage() {
                   <SortableLink
                     key={link.id}
                     link={link}
-                    clicks={analytics.linkClicks?.[link.id] || 0}
+                    clicks={analytics.linkClicks?.[link.id] || (analytics as any)[`linkClicks.${link.id}`] || 0}
                     onEdit={() => openEdit(link)}
                     onDelete={() => deleteLink(link.id)}
                   />
@@ -356,23 +356,23 @@ function SortableLink({
     useSortable({ id: link.id });
 
   return (
-    <div
-      ref={setNodeRef}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
-      className={cn(
-        "flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5",
-        isDragging && "z-10 shadow-xl"
-      )}
-    >
+      <div
+        ref={setNodeRef}
+        style={{ transform: CSS.Transform.toString(transform), transition }}
+        className={cn(
+          "flex items-center gap-1.5 rounded-xl sm:rounded-2xl border border-border bg-card p-2 sm:gap-3 sm:p-3.5",
+          isDragging && "z-10 shadow-xl"
+        )}
+      >
       <button
         {...attributes}
         {...listeners}
-        className="cursor-grab touch-none text-muted-foreground hover:text-foreground active:cursor-grabbing"
+        className="cursor-grab touch-none p-1 text-muted-foreground hover:text-foreground active:cursor-grabbing sm:p-0"
         aria-label="Drag to reorder"
       >
-        <GripVertical className="h-5 w-5" />
+        <GripVertical className="h-4 w-4 sm:h-5 sm:w-5" />
       </button>
-      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted">
+      <span className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted sm:flex sm:h-10 sm:w-10">
         {link.type === "header" ? (
           <Type className="h-5 w-5" />
         ) : (
@@ -391,21 +391,21 @@ function SortableLink({
       </div>
       
       {link.type !== "header" && (
-        <div className="hidden sm:flex flex-col items-end pr-2 pl-4">
-          <span className="text-sm font-bold text-emerald-500">{clicks.toLocaleString()}</span>
-          <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Clicks</span>
+        <div className="flex flex-col items-end px-1 sm:px-2">
+          <span className="text-xs font-bold text-emerald-500 sm:text-sm">{clicks.toLocaleString()}</span>
+          <span className="text-[9px] font-medium uppercase tracking-wider text-muted-foreground sm:text-[10px]">Clicks</span>
         </div>
       )}
 
-      <Button variant="ghost" size="icon" onClick={onEdit} aria-label="Edit">
-        <Pencil className="h-4 w-4" />
+      <Button variant="ghost" size="icon" onClick={onEdit} aria-label="Edit" className="h-8 w-8 sm:h-10 sm:w-10">
+        <Pencil className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
       </Button>
       <Button
         variant="ghost"
         size="icon"
         onClick={onDelete}
         aria-label="Delete"
-        className="text-red-500 hover:bg-red-500/10"
+        className="h-8 w-8 text-red-500 hover:bg-red-500/10 sm:h-10 sm:w-10"
       >
         <Trash2 className="h-4 w-4" />
       </Button>

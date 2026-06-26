@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Image as ImageIcon, Palette as PaletteIcon } from "lucide-react";
+import { Check, Image as ImageIcon, Palette as PaletteIcon, Upload, Trash2 } from "lucide-react";
 import { Input, Label } from "@/components/ui/input";
 import { PreviewFrame } from "@/components/profile/preview-frame";
 import { useAppData } from "@/hooks/use-app-data";
@@ -9,17 +9,21 @@ import { THEMES } from "@/lib/themes";
 import { cn } from "@/lib/utils";
 
 const IMAGE_BACKGROUNDS = [
-  { id: "img-abstract", name: "Abstract Fluid", url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" },
-  { id: "img-space", name: "Deep Space", url: "https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=2694&auto=format&fit=crop" },
-  { id: "img-nature", name: "Misty Forest", url: "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2670&auto=format&fit=crop" },
-  { id: "img-gradient", name: "Mesh Gradient", url: "https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2629&auto=format&fit=crop" },
-  { id: "img-city", name: "Cyberpunk City", url: "https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?q=80&w=2670&auto=format&fit=crop" },
-  { id: "img-minimal", name: "Clean Minimal", url: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=2667&auto=format&fit=crop" },
+  { id: "img-1", name: "Abstract Fluid", url: "/bg-images/bg-1.webp" },
+  { id: "img-2", name: "Deep Space", url: "/bg-images/bg-2.jpg" },
+  { id: "img-3", name: "Misty Forest", url: "/bg-images/bg-3.avif" },
+  { id: "img-4", name: "Mesh Gradient", url: "/bg-images/bg-4.jpg" },
+  { id: "img-5", name: "Cyberpunk City", url: "/bg-images/bg-5.jpg" },
+  { id: "img-6", name: "Clean Minimal", url: "/bg-images/bg-6.jpg" },
+  { id: "img-7", name: "Aurora", url: "/bg-images/bg-7.jpg" },
+  { id: "img-8", name: "Neon Lines", url: "/bg-images/bg-8.jpg" },
+  { id: "img-9", name: "Dark Texture", url: "/bg-images/bg-9.webp" },
+  { id: "img-10", name: "Liquid Color", url: "/bg-images/bg-10.jpg" },
 ];
 
 export default function ThemesPage() {
   const { data, ready, update } = useAppData();
-  const [activeTab, setActiveTab] = useState<"colors" | "images">("colors");
+  const [activeTab, setActiveTab] = useState<"colors" | "images" | "my_images">("colors");
 
   if (!ready || !data) return <div className="h-96 rounded-2xl skeleton" />;
 
@@ -43,6 +47,67 @@ export default function ThemesPage() {
     }));
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const MAX_WIDTH = 1080;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > MAX_WIDTH) {
+          height = Math.round((height * MAX_WIDTH) / width);
+          width = MAX_WIDTH;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx?.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.7);
+        update(p => {
+          const prevImgs = p.profile.uploadedBgImages || [];
+          // Put the new image at the start, keep up to 5 total
+          const newImgs = [dataUrl, ...prevImgs].slice(0, 5);
+          return {
+            ...p,
+            profile: {
+              ...p.profile,
+              uploadedBgImages: newImgs,
+              customBg: `url('${dataUrl}')`,
+              backgroundStyle: "solid",
+              customColor: "#ffffff"
+            }
+          };
+        });
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const deleteUploadedImage = (e: React.MouseEvent, index: number) => {
+    e.stopPropagation();
+    update(p => {
+      const imgs = [...(p.profile.uploadedBgImages || [])];
+      const removed = imgs.splice(index, 1)[0];
+      const newProfile = { ...p.profile, uploadedBgImages: imgs };
+      
+      // If deleted image was active, switch to another upload or none
+      if (newProfile.customBg?.includes(removed)) {
+        newProfile.customBg = imgs.length > 0 ? `url('${imgs[0]}')` : "";
+      }
+      return { ...p, profile: newProfile };
+    });
+  };
+
   return (
     <div className="mx-auto grid max-w-6xl gap-8 lg:grid-cols-[1fr_360px]">
       <div className="space-y-6">
@@ -54,18 +119,24 @@ export default function ThemesPage() {
             </p>
           </div>
           
-          <div className="flex rounded-lg bg-muted p-1 sm:w-auto">
+          <div className="grid w-full grid-cols-3 rounded-lg bg-muted p-1 sm:w-auto">
             <button 
               onClick={() => setActiveTab("colors")}
-              className={cn("flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all", activeTab === "colors" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
+              className={cn("flex cursor-pointer items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-medium transition-all sm:gap-2 sm:text-sm", activeTab === "colors" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
             >
-              <PaletteIcon className="h-4 w-4" /> Colors
+              <PaletteIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> <span className="truncate">Colors</span>
             </button>
             <button 
               onClick={() => setActiveTab("images")}
-              className={cn("flex cursor-pointer items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all", activeTab === "images" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
+              className={cn("flex cursor-pointer items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-medium transition-all sm:gap-2 sm:text-sm", activeTab === "images" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
             >
-              <ImageIcon className="h-4 w-4" /> Images
+              <ImageIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> <span className="truncate">Images</span>
+            </button>
+            <button 
+              onClick={() => setActiveTab("my_images")}
+              className={cn("flex cursor-pointer items-center justify-center gap-1.5 rounded-md px-2 py-1.5 text-xs font-medium transition-all sm:gap-2 sm:text-sm", activeTab === "my_images" ? "bg-background shadow-sm text-foreground" : "text-muted-foreground hover:bg-background/50")}
+            >
+              <Upload className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> <span className="truncate">My Images</span>
             </button>
           </div>
         </div>
@@ -116,196 +187,211 @@ export default function ThemesPage() {
                 </button>
               );
             })
+          ) : activeTab === "my_images" ? (
+            <>
+              {(!data.profile.uploadedBgImages || data.profile.uploadedBgImages.length < 5) && (
+                <label className="group relative cursor-pointer overflow-hidden rounded-2xl border-2 border-dashed border-border text-left transition-all hover:border-primary/50 hover:bg-muted/50">
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/webp"
+                    className="hidden"
+                    onChange={handleImageUpload}
+                  />
+                  <div className="flex h-32 flex-col items-center justify-center gap-2">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary">
+                      <Upload className="h-5 w-5" />
+                    </div>
+                    <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground">
+                      Upload New Image
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between bg-card px-3 py-2.5 border-t border-border/50">
+                    <span className="text-sm font-medium">
+                      {(data.profile.uploadedBgImages?.length || 0)} / 5 Uploads
+                    </span>
+                  </div>
+                </label>
+              )}
+
+              {data.profile.uploadedBgImages?.map((imgUrl, idx) => {
+                const isActive = data.profile.customBg?.includes(imgUrl);
+                return (
+                  <div
+                    key={idx}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => selectImage(imgUrl)}
+                    className={cn(
+                      "group relative cursor-pointer overflow-hidden rounded-2xl border-2 text-left transition-all",
+                      isActive
+                        ? "border-primary shadow-lg shadow-primary/20"
+                        : "border-border hover:border-primary/40"
+                    )}
+                  >
+                    <div
+                      className="h-32 bg-cover bg-center"
+                      style={{ backgroundImage: `url('${imgUrl}')` }}
+                    />
+                    <button
+                      onClick={(e) => deleteUploadedImage(e, idx)}
+                      className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur transition-all hover:bg-red-500"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                    <div className="flex items-center justify-between bg-card px-3 py-2.5">
+                      <span className="text-sm font-medium">Upload {idx + 1}</span>
+                      {isActive && (
+                        <span className="brand-gradient flex h-5 w-5 items-center justify-center rounded-full">
+                          <Check className="h-3 w-3 text-white" />
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </>
           ) : (
             IMAGE_BACKGROUNDS.map((img) => {
-              const isActiveImage = data.profile.customBg?.includes(img.url);
-              return (
-                <button
-                  key={img.id}
-                  onClick={() => selectImage(img.url)}
-                  className={cn(
-                    "group relative cursor-pointer overflow-hidden rounded-2xl border-2 text-left transition-all",
-                    isActiveImage
-                      ? "border-primary shadow-lg shadow-primary/20"
-                      : "border-border hover:border-primary/40"
-                  )}
-                >
-                  <div
-                    className="h-32 bg-cover bg-center"
-                    style={{ backgroundImage: `url('${img.url}')` }}
-                  />
-                  <div className="flex items-center justify-between bg-card px-3 py-2.5">
-                    <span className="text-sm font-medium">{img.name}</span>
-                    {isActiveImage && (
-                      <span className="brand-gradient flex h-5 w-5 items-center justify-center rounded-full">
-                        <Check className="h-3 w-3 text-white" />
-                      </span>
+                const isActiveImage = data.profile.customBg?.includes(img.url);
+                return (
+                  <button
+                    key={img.id}
+                    onClick={() => selectImage(img.url)}
+                    className={cn(
+                      "group relative cursor-pointer overflow-hidden rounded-2xl border-2 text-left transition-all",
+                      isActiveImage
+                        ? "border-primary shadow-lg shadow-primary/20"
+                        : "border-border hover:border-primary/40"
                     )}
-                  </div>
-                </button>
-              );
-            })
+                  >
+                    <div
+                      className="h-32 bg-cover bg-center"
+                      style={{ backgroundImage: `url('${img.url}')` }}
+                    />
+                    <div className="flex items-center justify-between bg-card px-3 py-2.5">
+                      <span className="text-sm font-medium">{img.name}</span>
+                      {isActiveImage && (
+                        <span className="brand-gradient flex h-5 w-5 items-center justify-center rounded-full">
+                          <Check className="h-3 w-3 text-white" />
+                        </span>
+                      )}
+                    </div>
+                  </button>
+                );
+              })
           )}
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
-          <h2 className="font-semibold tracking-tight">Custom Appearance (Pro)</h2>
-          <div>
-            <Label>Custom Background</Label>
-            <div className="mt-1.5 flex gap-2">
-              <div className="relative shrink-0">
-                <input 
-                  type="color" 
-                  value={data.profile.customBg?.startsWith("#") ? data.profile.customBg.slice(0, 7) : "#ffffff"}
-                  onChange={(e) => update(p => ({...p, profile: {...p.profile, customBg: e.target.value}}))}
-                  className="absolute inset-0 h-9 w-12 cursor-pointer opacity-0"
-                  title="Choose color"
-                />
-                <div 
-                  className="flex h-9 w-12 items-center justify-center rounded-md border border-input shadow-sm"
-                  style={{ background: data.profile.customBg || "#ffffff" }}
-                />
-              </div>
-              <Input 
-                placeholder="e.g. #ff0000 or linear-gradient(...)" 
-                value={data.profile.customBg || ""}
-                onChange={(e) => update(p => ({...p, profile: {...p.profile, customBg: e.target.value}}))}
-              />
-            </div>
-            <p className="mt-1.5 text-xs text-muted-foreground">Accepts any valid CSS background value.</p>
-          </div>
-          <div>
-            <Label>Background Effect</Label>
-            <select 
-              className="mt-1.5 flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              value={data.profile.backgroundStyle || "solid"}
-              onChange={(e) => update(p => ({...p, profile: {...p.profile, backgroundStyle: e.target.value as any}}))}
-            >
-              <option value="solid">Solid / None</option>
-              <option value="bubbles">Animated Bubbles ✨</option>
-              <option value="dots">Polka Dots</option>
-              <option value="waves">Ocean Waves</option>
-            </select>
-          </div>
-          <div>
-            <Label>Custom Text Color</Label>
-            <div className="mt-1.5 flex gap-2">
-              <div className="relative shrink-0">
-                <input 
-                  type="color" 
-                  value={data.profile.customColor?.startsWith("#") ? data.profile.customColor.slice(0, 7) : "#000000"}
-                  onChange={(e) => update(p => ({...p, profile: {...p.profile, customColor: e.target.value}}))}
-                  className="absolute inset-0 h-9 w-12 cursor-pointer opacity-0"
-                  title="Choose color"
-                />
-                <div 
-                  className="flex h-9 w-12 items-center justify-center rounded-md border border-input shadow-sm"
-                  style={{ background: data.profile.customColor || "#000000" }}
-                />
-              </div>
-              <Input 
-                placeholder="e.g. #ffffff or white" 
-                value={data.profile.customColor || ""}
-                onChange={(e) => update(p => ({...p, profile: {...p.profile, customColor: e.target.value}}))}
-              />
-            </div>
-          </div>
-          <div>
-            <Label>Font Family</Label>
-            <select 
-              className="mt-1.5 flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-              value={data.profile.fontFamily || "Inter"}
-              onChange={(e) => update(p => ({...p, profile: {...p.profile, fontFamily: e.target.value}}))}
-            >
-              <option value="Inter">Inter (Default)</option>
-              <option value="Playfair Display">Playfair Display</option>
-              <option value="Roboto Mono">Roboto Mono</option>
-              <option value="Outfit">Outfit</option>
-              <option value="Space Grotesk">Space Grotesk</option>
-            </select>
-          </div>
-
-          <div className="pt-2 border-t border-border">
-            <div className="mb-4">
-              <div className="flex justify-between mb-1.5">
-                <Label>Background Dimming</Label>
-                <span className="text-xs text-muted-foreground">{data.profile.bgOpacity || 0}%</span>
-              </div>
-              <input 
-                type="range" 
-                min="0" max="100" 
-                className="w-full cursor-pointer accent-primary" 
-                value={data.profile.bgOpacity || 0}
-                onChange={(e) => update(p => ({...p, profile: {...p.profile, bgOpacity: parseInt(e.target.value)}}))}
-              />
-              <p className="mt-1.5 text-xs text-muted-foreground">Darken images to make white text easier to read.</p>
-            </div>
+        {(activeTab === "images" || activeTab === "my_images") && (
+          <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+            <h2 className="font-semibold tracking-tight">Image Adjustments</h2>
             
-            <div>
-              <div className="flex justify-between mb-1.5">
-                <Label>Background Blur</Label>
-                <span className="text-xs text-muted-foreground">{data.profile.bgBlur || 0}px</span>
+            <div className="space-y-4 pt-2">
+              <div>
+                <div className="flex justify-between mb-1.5">
+                  <Label>Background Dimming</Label>
+                  <span className="text-xs text-muted-foreground">{data.profile.bgOpacity || 0}%</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="0" max="100" 
+                  className="w-full cursor-pointer accent-primary" 
+                  value={data.profile.bgOpacity || 0}
+                  onChange={(e) => update(p => ({...p, profile: {...p.profile, bgOpacity: parseInt(e.target.value)}}))}
+                />
+                <p className="mt-1.5 text-xs text-muted-foreground">Darken images to make white text easier to read.</p>
               </div>
-              <input 
-                type="range" 
-                min="0" max="20" 
-                className="w-full cursor-pointer accent-primary" 
-                value={data.profile.bgBlur || 0}
-                onChange={(e) => update(p => ({...p, profile: {...p.profile, bgBlur: parseInt(e.target.value)}}))}
-              />
-            </div>
-            
-            <div className="pt-2">
-              <div className="flex justify-between mb-1.5">
-                <Label>Manual X Position</Label>
-                <span className="text-xs text-muted-foreground">
-                  {(() => {
+              
+              <div>
+                <div className="flex justify-between mb-1.5">
+                  <Label>Background Blur</Label>
+                  <span className="text-xs text-muted-foreground">{data.profile.bgBlur || 0}px</span>
+                </div>
+                <input 
+                  type="range" 
+                  min="0" max="20" 
+                  className="w-full cursor-pointer accent-primary" 
+                  value={data.profile.bgBlur || 0}
+                  onChange={(e) => update(p => ({...p, profile: {...p.profile, bgBlur: parseInt(e.target.value)}}))}
+                />
+              </div>
+              
+              <div className="pt-2">
+                <div className="flex justify-between mb-1.5">
+                  <Label>Manual X Position (Left/Right)</Label>
+                  <span className="text-xs text-muted-foreground">
+                    {(() => {
+                      const v = parseInt(data.profile.bgPosition?.split(' ')[0] || "50");
+                      return isNaN(v) ? 50 : v;
+                    })()}%
+                  </span>
+                </div>
+                <input 
+                  type="range" 
+                  min="0" max="100" 
+                  className="w-full cursor-pointer accent-primary" 
+                  value={(() => {
                     const v = parseInt(data.profile.bgPosition?.split(' ')[0] || "50");
                     return isNaN(v) ? 50 : v;
-                  })()}%
-                </span>
+                  })()}
+                  onChange={(e) => {
+                    const y = data.profile.bgPosition?.split(' ')[1] || "50%";
+                    update(p => ({...p, profile: {...p.profile, bgPosition: `${e.target.value}% ${y}`}}));
+                  }}
+                />
               </div>
-              <input 
-                type="range" 
-                min="0" max="100" 
-                className="w-full cursor-pointer accent-primary" 
-                value={(() => {
-                  const v = parseInt(data.profile.bgPosition?.split(' ')[0] || "50");
-                  return isNaN(v) ? 50 : v;
-                })()}
-                onChange={(e) => {
-                  const y = data.profile.bgPosition?.split(' ')[1] || "50%";
-                  update(p => ({...p, profile: {...p.profile, bgPosition: `${e.target.value}% ${y}`}}));
-                }}
-              />
-            </div>
-            
-            <div className="pt-2">
-              <div className="flex justify-between mb-1.5">
-                <Label>Manual Y Position</Label>
-                <span className="text-xs text-muted-foreground">
-                  {(() => {
+              
+              <div className="pt-2">
+                <div className="flex justify-between mb-1.5">
+                  <Label>Manual Y Position (Up/Down)</Label>
+                  <span className="text-xs text-muted-foreground">
+                    {(() => {
+                      const v = parseInt(data.profile.bgPosition?.split(' ')[1] || "50");
+                      return isNaN(v) ? 50 : v;
+                    })()}%
+                  </span>
+                </div>
+                <input 
+                  type="range" 
+                  min="0" max="100" 
+                  className="w-full cursor-pointer accent-primary" 
+                  value={(() => {
                     const v = parseInt(data.profile.bgPosition?.split(' ')[1] || "50");
                     return isNaN(v) ? 50 : v;
-                  })()}%
-                </span>
+                  })()}
+                  onChange={(e) => {
+                    const x = data.profile.bgPosition?.split(' ')[0] || "50%";
+                    update(p => ({...p, profile: {...p.profile, bgPosition: `${x} ${e.target.value}%`}}));
+                  }}
+                />
               </div>
-              <input 
-                type="range" 
-                min="0" max="100" 
-                className="w-full cursor-pointer accent-primary" 
-                value={(() => {
-                  const v = parseInt(data.profile.bgPosition?.split(' ')[1] || "50");
-                  return isNaN(v) ? 50 : v;
-                })()}
-                onChange={(e) => {
-                  const x = data.profile.bgPosition?.split(' ')[0] || "50%";
-                  update(p => ({...p, profile: {...p.profile, bgPosition: `${x} ${e.target.value}%`}}));
-                }}
-              />
+
+              <div className="pt-2">
+                <Label>Custom Text Color</Label>
+                <div className="mt-1.5 flex gap-2">
+                  <div className="relative shrink-0">
+                    <input 
+                      type="color" 
+                      value={data.profile.customColor?.startsWith("#") ? data.profile.customColor.slice(0, 7) : "#ffffff"}
+                      onChange={(e) => update(p => ({...p, profile: {...p.profile, customColor: e.target.value}}))}
+                      className="absolute inset-0 h-9 w-12 cursor-pointer opacity-0"
+                      title="Choose color"
+                    />
+                    <div 
+                      className="flex h-9 w-12 items-center justify-center rounded-md border border-input shadow-sm"
+                      style={{ background: data.profile.customColor || "#ffffff" }}
+                    />
+                  </div>
+                  <Input 
+                    placeholder="e.g. #ffffff or white" 
+                    value={data.profile.customColor || ""}
+                    onChange={(e) => update(p => ({...p, profile: {...p.profile, customColor: e.target.value}}))}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <PreviewFrame data={data} />

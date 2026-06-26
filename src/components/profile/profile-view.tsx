@@ -12,7 +12,6 @@ import { getFirebaseDb } from "@/lib/firebase";
 import { doc, setDoc, increment } from "firebase/firestore";
 import { BackgroundEffects } from "./background-effects";
 import type { AppData, SocialPlatform } from "@/lib/types";
-import { useState, useEffect, useRef } from "react";
 
 interface ProfileViewProps {
   data: AppData;
@@ -28,24 +27,7 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
   const { profile, links, socials, settings } = data;
   const target = settings.openLinksInNewTab ? "_blank" : undefined;
 
-  const [isScrolled, setIsScrolled] = useState(false);
-  const headerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const scrollContainer = scrollRootId ? document.getElementById(scrollRootId) : null;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsScrolled(!entry.isIntersecting);
-      },
-      { threshold: 0, root: scrollContainer }
-    );
-
-    if (headerRef.current) {
-      observer.observe(headerRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, [scrollRootId]);
 
   const activeSocials = SOCIAL_PLATFORMS.filter(
     (s) => socials[s.key as SocialPlatform]
@@ -56,10 +38,10 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
     preview
       ? {}
       : {
-          initial: { opacity: 0, y: 16 },
-          animate: { opacity: 1, y: 0 },
-          transition: { delay: 0.1 + i * 0.07, duration: 0.45 },
-        };
+        initial: { opacity: 0, y: 16 },
+        animate: { opacity: 1, y: 0 },
+        transition: { delay: 0.1 + i * 0.07, duration: 0.45 },
+      };
 
   const handleLinkClick = (id: string) => {
     if (!preview && profile.username) {
@@ -67,9 +49,11 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
         const db = getFirebaseDb();
         if (db) {
           const viewsRef = doc(db, "analytics", profile.username);
-          setDoc(viewsRef, { 
+          setDoc(viewsRef, {
             clicks: increment(1),
-            [`linkClicks.${id}`]: increment(1)
+            linkClicks: {
+              [id]: increment(1)
+            }
           }, { merge: true }).catch(console.error);
         }
       } catch (e) {
@@ -86,25 +70,26 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
 
   return (
     <div
-      className="relative flex min-h-full w-full flex-col items-center px-5 py-12"
-      style={{ 
+      className="relative flex min-h-full w-full flex-col items-center px-5 pt-6 pb-10"
+      style={{
         ...(isImageOrGradient ? { backgroundImage: bgValue } : { backgroundColor: bgValue }),
         backgroundPosition: profile.bgPosition || "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
         color: profile.customColor || theme.text,
-        fontFamily: profile.fontFamily || "inherit" 
+        fontFamily: profile.fontFamily || "inherit"
       }}
     >
       {/* Background Adjustments Overlay */}
       {(profile.bgOpacity !== undefined || profile.bgBlur !== undefined) && (
-        <div 
-          className="absolute inset-0 z-0" 
-          style={{ 
+        <div
+          className="absolute inset-0 z-0"
+          style={{
             backgroundColor: profile.bgOpacity ? `rgba(0,0,0,${profile.bgOpacity / 100})` : 'transparent',
             backdropFilter: profile.bgBlur ? `blur(${profile.bgBlur}px)` : 'none',
             WebkitBackdropFilter: profile.bgBlur ? `blur(${profile.bgBlur}px)` : 'none',
-          }} 
+          }}
         />
       )}
 
@@ -113,33 +98,8 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
       </div>
 
       <div className="relative z-10 flex w-full max-w-md flex-col">
-        {/* Invisible Sticky Anchor for Animated Header */}
-        <div className="sticky top-0 z-50 -mx-5 w-[calc(100%+2.5rem)]" style={{ height: 0 }}>
-          <div 
-            className={`absolute left-0 top-0 flex w-full flex-row items-center justify-center gap-3 border-b py-3 shadow-sm transition-all duration-300 ${
-              isScrolled ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
-            }`}
-            style={{ 
-              backgroundColor: theme.text.startsWith('#0') || theme.text.startsWith('#1') ? '#ffffff' : '#000000',
-              borderColor: theme.buttonBorder 
-            }}
-          >
-            {/* Name & Username */}
-            <div className="flex flex-col text-center">
-              <h1 className="text-[14px] font-bold tracking-tight leading-tight">
-                {profile.displayName || "Your Name"}
-              </h1>
-              {profile.username && (
-                <p className="text-[10px] font-medium opacity-80" style={{ color: theme.muted }}>
-                  @{profile.username}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-
         {/* Main Profile Header */}
-        <div ref={headerRef} className="flex flex-col items-center text-center pt-2">
+        <div className="flex flex-col items-center text-center pt-2">
           {profile.avatar ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -249,16 +209,15 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
                 } else if (u.hostname.includes("spotify.com")) {
                   embedUrl = `https://open.spotify.com/embed${u.pathname}`;
                 }
-              } catch (e) {}
+              } catch (e) { }
             }
 
             return (
               <Wrapper key={link.id} {...itemProps(i)}>
                 {embedUrl ? (
                   <div
-                    className={`overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-md ${
-                      link.animation && link.animation !== "none" ? `anim-${link.animation}` : ""
-                    }`}
+                    className={`overflow-hidden rounded-xl border shadow-sm transition-all hover:shadow-md ${link.animation && link.animation !== "none" ? `anim-${link.animation}` : ""
+                      }`}
                     style={{
                       borderColor: theme.buttonBorder,
                       background: theme.buttonBg,
@@ -278,9 +237,8 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
                     target={target}
                     rel="noopener noreferrer"
                     onClick={() => handleLinkClick(link.id)}
-                    className={`group flex w-full items-center gap-3.5 rounded-xl px-4 py-2.5 shadow-sm transition-all hover:scale-[1.02] hover:shadow-md active:scale-[0.99] ${
-                      link.animation && link.animation !== "none" ? `anim-${link.animation}` : ""
-                    }`}
+                    className={`group flex w-full items-center gap-3.5 rounded-xl px-4 py-2.5 shadow-sm transition-all hover:scale-[1.02] hover:shadow-md active:scale-[0.99] ${link.animation && link.animation !== "none" ? `anim-${link.animation}` : ""
+                      }`}
                     style={{
                       background: theme.buttonBg,
                       color: theme.buttonText,

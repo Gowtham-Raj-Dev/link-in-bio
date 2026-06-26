@@ -7,7 +7,7 @@ export const BRAND = {
   founder: "Gowtham",
   url: "https://linkinbio.codelove.in",
   description:
-    "Create a beautiful bio page for Instagram, YouTube, TikTok, LinkedIn and more. Share everything from one smart link.",
+    "Create a beautiful, customizable bio page for Instagram, YouTube, TikTok, LinkedIn and more. Link in Bio by CodeLove lets you share all your important links, track real-time analytics, and understand your audience with one smart link.",
 };
 
 export const PRIVACY_NOTICE =
@@ -252,9 +252,10 @@ export const LINK_ICONS = [
 ];
 
 export const NAV_LINKS = [
-  { label: "Home", href: "/" },
   { label: "Features", href: "/#features" },
-  { label: "Privacy", href: "/privacy" },
-  { label: "Roadmap", href: "/#roadmap" },
+  { label: "Why LinkinBio", href: "/#why" },
+  { label: "Privacy", href: "/#infrastructure" },
+  { label: "How it Works", href: "/#how-it-works" },
+  { label: "Analytics", href: "/#analytics" },
   { label: "FAQ", href: "/#faq" },
 ];

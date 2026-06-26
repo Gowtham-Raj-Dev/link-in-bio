@@ -53,13 +53,13 @@ export function AnalyticsSection() {
               Track Your Success in Real-Time
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-              Understand your audience with built-in analytics. See exactly which links are performing best and watch your traffic grow as it happens.
+              Normally on Instagram, you can't track how many people clicked a link, which specific link they clicked, or how many opened it. With <strong>Link in Bio by CodeLove</strong>, you get proper, full details on exactly how many people clicked your profile and exactly which links they clicked.
             </p>
             <ul className="mt-6 space-y-3">
               {[
                 "Live view counts for your profile",
                 "Individual click tracking for every link",
-                "Simple, beautiful dashboard with no setup required",
+                "Understand exactly what your audience wants",
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3 text-sm">
                   <BarChart3 className="h-5 w-5 shrink-0 text-brand-500" />

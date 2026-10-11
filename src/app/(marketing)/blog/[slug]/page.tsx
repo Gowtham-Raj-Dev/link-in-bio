@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Prose } from "@/components/marketing/prose";
 import { BLOG_POSTS, formatDate, getPost } from "@/lib/blog";
 import { BRAND } from "@/lib/constants";
+import { OG_IMAGE } from "@/lib/seo";
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({ slug: post.slug }));
@@ -26,9 +27,20 @@ export async function generateMetadata({
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
       type: "article",
+      locale: "en_IN",
+      siteName: BRAND.name,
+      url: `/blog/${post.slug}`,
       title: post.title,
       description: post.description,
       publishedTime: post.date,
+      authors: [BRAND.founder],
+      images: [post.image ? { url: post.image, alt: post.title } : OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: [post.image ?? OG_IMAGE.url],
     },
   };
 }
@@ -71,7 +83,7 @@ export default async function BlogPostPage({
               <Clock className="h-3 w-3" /> {post.readingTime}
             </span>
           </div>
-          <h1 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
+          <h1 className="font-display mt-4 text-3xl font-bold tracking-tight sm:text-5xl">
             {post.title}
           </h1>
           <p className="mt-4 text-base text-muted-foreground">
@@ -168,15 +180,38 @@ export default async function BlogPostPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: post.title,
-            description: post.description,
-            datePublished: post.date,
-            author: { "@type": "Person", name: BRAND.founder },
-            publisher: { "@type": "Organization", name: BRAND.developedBy },
-          }),
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              headline: post.title,
+              description: post.description,
+              datePublished: post.date,
+              dateModified: post.date,
+              image: `${BRAND.url}${post.image ?? OG_IMAGE.url}`,
+              mainEntityOfPage: `${BRAND.url}/blog/${post.slug}`,
+              author: { "@type": "Person", name: BRAND.founder },
+              publisher: {
+                "@type": "Organization",
+                name: "CodeLove",
+                url: "https://codelove.in",
+              },
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: BRAND.url },
+                { "@type": "ListItem", position: 2, name: "Blog", item: `${BRAND.url}/blog` },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: post.title,
+                  item: `${BRAND.url}/blog/${post.slug}`,
+                },
+              ],
+            },
+          ]),
         }}
       />
     </article>

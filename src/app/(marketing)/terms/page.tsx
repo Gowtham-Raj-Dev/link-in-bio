@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/section";
 import { PageHero, Prose } from "@/components/marketing/prose";
 import { BRAND } from "@/lib/constants";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Terms of Service",
   description:
     "The terms that govern your use of LinkinBio, a link in bio tool by CodeLove.in.",
-  alternates: { canonical: "/terms" },
-};
+  path: "/terms",
+});
 
-const UPDATED = "June 22, 2026";
+const UPDATED = "October 10, 2026";
 
 export default function TermsPage() {
   return (
@@ -32,16 +33,16 @@ export default function TermsPage() {
 
           <h2>2. Your account</h2>
           <p>
-            You sign in using Google. You are responsible for activity that
-            happens under your account and for keeping your Google credentials
+            You sign in with Google or with an email address and password. You are responsible for activity that
+            happens under your account and for keeping your sign-in credentials
             secure. You must be at least 13 years old to use {BRAND.name}.
           </p>
 
           <h2>3. Your content</h2>
           <p>
             You own the content you create — your profile details, links and
-            social handles. During this early version that content is stored in
-            your own browser. You are responsible for the links you publish and
+            social handles. It is stored in the cloud under your account, and your
+            public profile page can be seen by anyone with the link. You are responsible for the links you publish and
             for making sure they comply with the law and with this agreement.
           </p>
 
@@ -58,10 +59,9 @@ export default function TermsPage() {
           <p>
             We work hard to keep {BRAND.name} running smoothly, but the Service is
             provided on an &ldquo;as is&rdquo; and &ldquo;as available&rdquo;
-            basis. Because your data is stored locally in your browser during this
-            phase, we are not responsible for content lost when you clear your
-            browser, switch devices or experience a device failure. We recommend
-            exporting your data from the Settings page as a backup.
+            basis. We are not responsible for content lost through service outages
+            or events outside our control. We recommend exporting your data from
+            the Settings page as a backup.
           </p>
 
           <h2>6. Free service and future changes</h2>
@@ -80,8 +80,8 @@ export default function TermsPage() {
 
           <h2>8. Termination</h2>
           <p>
-            You may stop using {BRAND.name} at any time and delete your data from
-            the Settings page. We may suspend or end access for accounts that
+            You may stop using {BRAND.name} at any time and ask us to delete your
+            account data by emailing us. We may suspend or end access for accounts that
             violate these terms.
           </p>
 

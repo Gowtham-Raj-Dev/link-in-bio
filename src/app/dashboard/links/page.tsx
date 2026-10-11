@@ -27,7 +27,7 @@ import { PreviewFrame } from "@/components/profile/preview-frame";
 import { useAppData } from "@/hooks/use-app-data";
 import { getFirebaseDb } from "@/lib/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
-import { LINK_ICONS } from "@/lib/constants";
+import { BRAND_ICON_NAMES, LINK_ICONS } from "@/lib/constants";
 import { createId, cn } from "@/lib/utils";
 import type { LinkItem } from "@/lib/types";
 
@@ -264,7 +264,7 @@ export default function LinksPage() {
                   );
 
                   if (query) {
-                    const brandKeys = ["Youtube", "Instagram", "Facebook", "Twitter", "Linkedin", "Github", "TikTok", "Threads"];
+                    const brandKeys = BRAND_ICON_NAMES;
                     const allKeys = [...brandKeys, ...Object.keys(icons)];
                     const options = allKeys
                       .filter((k) => k.toLowerCase().includes(query))
@@ -277,7 +277,7 @@ export default function LinksPage() {
                     return renderGrid(options);
                   }
                   
-                  const socialIcons = ["Youtube", "Instagram", "Facebook", "Twitter", "Linkedin", "Github", "TikTok", "Threads"];
+                  const socialIcons = BRAND_ICON_NAMES;
                   
                   // use all valid lucide components for the general section
                   const allLucide = Object.keys(icons).filter(k => /^[A-Z]/.test(k));

@@ -13,6 +13,9 @@ import { doc, setDoc, increment } from "firebase/firestore";
 import { BackgroundEffects } from "./background-effects";
 import type { AppData, SocialPlatform } from "@/lib/types";
 
+const PROFILE_FONTS_URL =
+  "https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Roboto+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap";
+
 interface ProfileViewProps {
   data: AppData;
   /** Disable interactions/animation for previews. */
@@ -81,6 +84,10 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
         fontFamily: profile.fontFamily || "inherit"
       }}
     >
+      {/* Web fonts are only fetched for profiles that picked a custom font, so
+          every other page skips the render-blocking stylesheet. */}
+      {profile.fontFamily && <link rel="stylesheet" href={PROFILE_FONTS_URL} />}
+
       {/* Background Adjustments Overlay */}
       {(profile.bgOpacity !== undefined || profile.bgBlur !== undefined) && (
         <div
@@ -274,7 +281,7 @@ export function ProfileView({ data, preview = false, scrollRootId }: ProfileView
               style={{ background: theme.buttonBg, color: theme.muted }}
             >
               <ShieldCheck className="h-3 w-3" />
-              Data stored locally · Privacy first
+              Privacy-first page
             </span>
           )}
           <Link

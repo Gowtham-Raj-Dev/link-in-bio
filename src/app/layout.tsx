@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { BRAND } from "@/lib/constants";
+import { ADSENSE_CLIENT } from "@/lib/adsense";
+import { KEYWORDS, OG_IMAGE, SITE_JSON_LD } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,38 +16,29 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Display face for marketing headings.
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL(BRAND.url),
   title: {
-    default: `${BRAND.name} by CodeLove — ${BRAND.tagline}`,
+    default: BRAND.seoTitle,
     template: `%s · ${BRAND.name} by CodeLove`,
   },
   description: BRAND.description,
   applicationName: BRAND.name,
-  keywords: [
-    "CodeLove",
-    "CodeLove link in bio",
-    "CodeLove projects",
-    "Gowtham CodeLove",
-    "link in bio",
-    "bio link",
-    "linktree alternative",
-    "creator tools",
-    "social media links",
-    "instagram bio link",
-    "personal landing page",
-    "link in profile",
-    "link tracking analytics",
-    "custom bio page"
-  ],
+  category: "technology",
+  keywords: KEYWORDS,
   authors: [{ name: BRAND.founder, url: "https://codelove.in" }],
   creator: BRAND.developedBy,
   publisher: BRAND.developedBy,
-  alternates: { canonical: "/" },
   icons: {
-    icon: [
-      { url: '/favicon.ico' },
-    ],
+    icon: [{ url: "/favicon.ico" }],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
   },
   formatDetection: {
     email: false,
@@ -54,26 +47,19 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "en_IN",
     siteName: BRAND.name,
-    title: `${BRAND.name} by CodeLove — ${BRAND.tagline}`,
+    title: BRAND.seoTitle,
     description: BRAND.description,
     url: BRAND.url,
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: `${BRAND.name} by CodeLove`,
-      }
-    ],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${BRAND.name} by CodeLove — ${BRAND.tagline}`,
+    title: BRAND.seoTitle,
     description: BRAND.description,
     creator: "@codelove_in",
-    images: ["/og-image.jpg"],
+    images: [OG_IMAGE.url],
   },
   robots: {
     index: true,
@@ -88,19 +74,35 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="en"
+      lang="en-IN"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
+      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased overflow-x-hidden`}
     >
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Playfair+Display:wght@400;600;700&family=Roboto+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+        {/* A ternary, not `&&`: an empty ID would otherwise render "" into
+            <head>, which breaks hydration and drops the stylesheet. */}
+        {ADSENSE_CLIENT ? (
+          <>
+            <meta name="google-adsense-account" content={ADSENSE_CLIENT} />
+            <script
+              async
+              src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+              crossOrigin="anonymous"
+            />
+          </>
+        ) : null}
       </head>
       <body className="min-h-full overflow-x-hidden" suppressHydrationWarning>
         {/* Apply the saved/system color mode before paint to avoid a flash. */}
@@ -108,6 +110,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `(function(){try{var k='linkinbio:color-mode';var m=localStorage.getItem(k);if(m!=='light'&&m!=='dark'){m=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}var e=document.documentElement;e.classList.toggle('dark',m==='dark');e.style.colorScheme=m;}catch(e){}})();`,
           }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSON_LD) }}
         />
         <Providers>{children}</Providers>
       </body>

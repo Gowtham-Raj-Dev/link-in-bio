@@ -4,14 +4,15 @@ import { Container } from "@/components/ui/section";
 import { Card } from "@/components/ui/card";
 import { PageHero } from "@/components/marketing/prose";
 import { ContactForm } from "@/components/marketing/contact-form";
-import { BRAND } from "@/lib/constants";
+import { BRAND, CONTACT_EMAIL } from "@/lib/constants";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Contact",
   description:
     "Get in touch with the LinkinBio team. Questions, feedback and ideas are always welcome.",
-  alternates: { canonical: "/contact" },
-};
+  path: "/contact",
+});
 
 export default function ContactPage() {
   return (
@@ -27,7 +28,7 @@ export default function ContactPage() {
             <InfoCard
               icon={<Mail className="h-5 w-5" />}
               title="Email us"
-              value="support@codelove.in"
+              value={CONTACT_EMAIL}
             />
             <InfoCard
               icon={<MessageSquare className="h-5 w-5" />}

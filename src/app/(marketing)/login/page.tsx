@@ -9,13 +9,13 @@ export const metadata: Metadata = {
   title: "Sign in",
   description:
     "Sign in or create your free LinkinBio account with email or Google.",
-  alternates: { canonical: "/login" },
+  robots: { index: false, follow: false },
 };
 
 const PERKS = [
   "Unlimited links from one smart page",
   "10 premium themes with live preview",
-  "Privacy-first — your data stays in your browser",
+  "Your profile syncs securely across your devices",
   "Free during early access, no credit card",
 ];
 

@@ -6,13 +6,14 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PageHero } from "@/components/marketing/prose";
 import { BLOG_POSTS, formatDate } from "@/lib/blog";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Blog",
   description:
-    "Tips and ideas for creators on building a better link in bio page — strategy, design and privacy from the LinkinBio team.",
-  alternates: { canonical: "/blog" },
-};
+    "Tips and ideas for creators on building a better link in bio page: strategy, design and privacy from the LinkinBio team.",
+  path: "/blog",
+});
 
 export default function BlogPage() {
   return (

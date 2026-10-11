@@ -4,8 +4,7 @@ import { useState } from "react";
 import { Check, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input, Label, Textarea } from "@/components/ui/input";
-
-const CONTACT_EMAIL = "support@codelove.in";
+import { CONTACT_EMAIL } from "@/lib/constants";
 
 export function ContactForm() {
   const [sent, setSent] = useState(false);

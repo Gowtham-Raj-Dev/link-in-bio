@@ -30,6 +30,8 @@ export interface LinkItem {
 export type SocialPlatform =
   | "instagram"
   | "youtube"
+  | "whatsapp"
+  | "telegram"
   | "facebook"
   | "linkedin"
   | "github"

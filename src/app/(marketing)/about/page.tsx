@@ -3,13 +3,14 @@ import Link from "next/link";
 import { Container } from "@/components/ui/section";
 import { PageHero, Prose } from "@/components/marketing/prose";
 import { BRAND } from "@/lib/constants";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
   description:
-    "Learn the story behind LinkinBio — a privacy-first link in bio tool built by CodeLove.in to help creators share everything from one link.",
-  alternates: { canonical: "/about" },
-};
+    "Learn the story behind LinkinBio, a free link in bio builder from CodeLove.in, and how it stores your profile, links and analytics with Firebase.",
+  path: "/about",
+});
 
 export default function AboutPage() {
   return (
@@ -44,10 +45,10 @@ export default function AboutPage() {
           <h2>What we believe</h2>
           <p>
             Two things guide every decision. First, your data belongs to you.
-            During this early version, everything you create — your profile, your
-            links, your theme — lives in your own browser. We do not copy it onto
-            a server, and we do not sell it. Google Sign-In is used only so we can
-            recognise your account between visits.
+            Your profile, links and theme are stored securely in the cloud with
+            Google Firebase so they follow you across devices. We do not sell
+            your data, and sign-in is used only so we can recognise your account
+            between visits.
           </p>
           <p>
             Second, speed is a feature. A bio page is often the first thing
@@ -58,11 +59,9 @@ export default function AboutPage() {
 
           <h2>Where we are headed</h2>
           <p>
-            Storing data locally is a deliberate starting point, not the finish
-            line. We are working toward optional cloud sync so your page follows
-            you across devices, along with real analytics, custom domains and
-            more themes. You can follow that journey on our{" "}
-            <Link href="/#roadmap">roadmap</Link>. As we add these features, our promise
+            Cloud sync and analytics are live today, and we are still building.
+            Custom domains and more themes are next. You can follow that journey on our{" "}
+            <Link href="/blog">blog</Link>. As we add these features, our promise
             stays the same: clear choices, honest defaults, and no surprises with
             your data.
           </p>

@@ -17,6 +17,8 @@ const BRAND_MAP: Record<string, SocialPlatform> = {
   Github: "github",
   TikTok: "tiktok",
   Threads: "threads",
+  WhatsApp: "whatsapp",
+  Telegram: "telegram",
 };
 
 /** Render a Lucide icon or Brand icon by its string name. Falls back to a link glyph. */

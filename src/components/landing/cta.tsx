@@ -1,47 +1,36 @@
-"use client";
-
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Check } from "lucide-react";
 import { Container } from "@/components/ui/section";
-import { Reveal } from "@/components/ui/reveal";
-import { useAuth } from "@/lib/auth-context";
+import { ClaimForm } from "@/components/landing/claim-form";
+
+const PROMISES = ["Unlimited links", "Themes and QR code", "Click analytics"];
 
 export function Cta() {
-  const { user } = useAuth();
-
   return (
-    <section className="py-20 sm:py-24">
+    <section className="py-20 sm:py-28">
       <Container>
-        <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-primary/20 p-10 text-center sm:p-16">
-            <div className="aurora-bg" />
-            <div className="relative">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Ready to claim your link?
-              </h2>
-              <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
-                Join creators building a beautiful online presence with one
-                smart link. It&apos;s free to start.
-              </p>
-              <div className="mt-8 flex justify-center">
-                {user ? (
-                  <Link href="/dashboard">
-                    <Button size="lg">
-                      Go to Dashboard <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                ) : (
-                  <Link href="/login?tab=signup">
-                    <Button size="lg">
-                      Start Free <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </Link>
-                )}
-              </div>
-            </div>
-          </div>
-        </Reveal>
+        <div className="reveal brand-gradient relative isolate overflow-hidden rounded-[2rem] px-6 py-14 text-center text-white shadow-2xl shadow-primary/30 sm:px-16 sm:py-20">
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_0%,rgba(255,255,255,0.28),transparent_45%),radial-gradient(circle_at_85%_100%,rgba(0,0,0,0.25),transparent_50%)]" />
+          <h2 className="font-display mx-auto max-w-2xl text-balance text-3xl font-bold tracking-tight sm:text-5xl sm:leading-[1.08]">
+            Claim your link in bio before someone else does
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-base text-white/85 sm:text-lg">
+            Pick your username, add your links and share your page today.
+            It&apos;s free to use.
+          </p>
+          <ClaimForm
+            id="cta-username"
+            onGradient
+            className="mx-auto mt-8 max-w-lg text-foreground"
+          />
+          <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm text-white/90">
+            {PROMISES.map((promise) => (
+              <li key={promise} className="flex items-center gap-1.5">
+                <Check className="h-4 w-4" />
+                {promise}
+              </li>
+            ))}
+          </ul>
+        </div>
       </Container>
     </section>
   );

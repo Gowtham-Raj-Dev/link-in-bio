@@ -1,8 +1,6 @@
 import type { MetadataRoute } from "next";
 export const dynamic = "force-static";
-import { BRAND } from "@/lib/constants";
-
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? BRAND.url;
+import { SITE_URL } from "@/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -10,10 +8,11 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
+        // /u/ and /login stay crawlable on purpose: they carry a noindex tag,
+        // which crawlers can only see if they are allowed to fetch the page.
         disallow: ["/dashboard/"],
       },
     ],
-    sitemap: `${BASE}/sitemap.xml`,
-    host: BASE,
+    sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }

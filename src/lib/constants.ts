@@ -6,9 +6,42 @@ export const BRAND = {
   developedBy: "CodeLove.in",
   founder: "Gowtham",
   url: "https://linkinbio.codelove.in",
+  /** Browser title and search result headline for the home page. */
+  seoTitle: "Free Link in Bio Page Builder for Instagram | LinkinBio",
   description:
-    "Create a beautiful, customizable bio page for Instagram, YouTube, TikTok, LinkedIn and more. Link in Bio by CodeLove lets you share all your important links, track real-time analytics, and understand your audience with one smart link.",
+    "Create a free link in bio page in minutes. Add unlimited links, pick a theme, share one link on Instagram, YouTube and WhatsApp, and track every click.",
 };
+
+export const CONTACT_EMAIL = "support@codelove.in";
+
+/** The CodeLove network: the main hub plus the sister tools. */
+export const CODELOVE_NETWORK = [
+  {
+    label: "CodeLove",
+    href: "https://codelove.in",
+    description: "The CodeLove home page",
+  },
+  {
+    label: "Downloader",
+    href: "https://downloader.codelove.in",
+    description: "Instagram and Pinterest media downloader",
+  },
+  {
+    label: "3D Models",
+    href: "https://models.codelove.in",
+    description: "Free 3D model library",
+  },
+  {
+    label: "Video to GIF",
+    href: "https://videotogif.codelove.in",
+    description: "GIF Studio: turn videos into GIFs",
+  },
+  {
+    label: "Video to Images",
+    href: "https://videotoimages.codelove.in",
+    description: "Frame Studio: video and image tools",
+  },
+];
 
 export const PRIVACY_NOTICE =
   "We believe your data belongs to you. LinkinBio stores your profile information and analytics securely in the cloud using Firebase, ensuring it syncs seamlessly across your devices. We do not sell your personal data. Google Sign-In is used exclusively to identify your account and protect your data.";
@@ -24,76 +57,78 @@ export const COMING_SOON = [
   "100% Free Forever",
 ];
 
-export const FEATURES = [
+/** Who the product is for. Each entry is a card in the "Who it's for" section. */
+export const AUDIENCES = [
   {
-    icon: "Link2",
-    title: "Unlimited Links",
+    icon: "Camera",
+    title: "Instagram creators & influencers",
     description:
-      "Add as many links as you want. Showcase every project, profile, and product without limits.",
+      "Send followers from your reels and stories to your latest collab, YouTube channel, affiliate picks and booking form, all from one bio link.",
+    links: ["Latest reel", "Brand collabs", "Affiliate picks"],
+    accent: "#ec4899",
   },
   {
-    icon: "Palette",
-    title: "Beautiful Themes",
+    icon: "Clapperboard",
+    title: "YouTubers & streamers",
     description:
-      "Ten hand-crafted themes from minimal to neon. Switch looks instantly with a live preview.",
+      "Share your newest video, playlists, community and merch. YouTube links can play right on your page.",
+    links: ["Watch latest video", "Join the community", "Merch store"],
+    accent: "#ef4444",
   },
   {
-    icon: "Smartphone",
-    title: "Mobile Optimized",
+    icon: "Store",
+    title: "Small businesses & online shops",
     description:
-      "Your page looks stunning on every device, with a layout designed mobile-first.",
+      "Take orders on WhatsApp, share your catalogue or menu, add your Google Maps location and collect reviews without building a website.",
+    links: ["Order on WhatsApp", "Menu & price list", "Find us on Maps"],
+    accent: "#22c55e",
   },
   {
-    icon: "ShieldCheck",
-    title: "Google Sign-In",
+    icon: "Briefcase",
+    title: "Freelancers & professionals",
     description:
-      "Secure one-tap login with Google. No passwords to remember, no friction.",
+      "Put your portfolio, résumé, LinkedIn and an enquiry link on one professional page you can send to any client.",
+    links: ["Portfolio", "Book a call", "Résumé"],
+    accent: "#0ea5e9",
   },
   {
-    icon: "Zap",
-    title: "Fast Performance",
+    icon: "GraduationCap",
+    title: "Developers & students",
     description:
-      "Built on Next.js for instant loads. Your audience never waits around.",
+      "Bring together GitHub, projects, LinkedIn and your résumé for placements, internships and hackathons.",
+    links: ["GitHub", "Projects", "LinkedIn"],
+    accent: "#8b5cf6",
   },
   {
-    icon: "BarChart3",
-    title: "Real-time Analytics",
+    icon: "Music",
+    title: "Musicians, artists & coaches",
     description:
-      "Track profile views, individual link clicks, and audience growth instantly on your dashboard.",
+      "Share songs, shows, classes and courses. Spotify links play directly on your page.",
+    links: ["Listen on Spotify", "Upcoming shows", "Join my class"],
+    accent: "#f59e0b",
   },
-];
-
-export const WHY_POINTS = [
-  "Easier than building a website",
-  "Faster than traditional portfolio tools",
-  "Mobile-first experience",
-  "Share everything from one link",
-  "Built for creators, developers, freelancers, and businesses",
 ];
 
 export const HOW_IT_WORKS = [
   {
     step: 1,
-    title: "Login with Google",
-    description: "Sign in securely in one tap. No passwords, no waiting.",
-    icon: "LogIn",
+    title: "Create your free account",
+    description:
+      "Sign up with Google or email and pick your username. No credit card, no setup fee.",
+    icon: "UserPlus",
   },
   {
     step: 2,
-    title: "Customize Your Profile",
-    description: "Add your photo, name, bio and pick a theme that fits you.",
-    icon: "UserCircle",
-  },
-  {
-    step: 3,
-    title: "Add Your Links",
-    description: "Drop in every link that matters and reorder with a drag.",
+    title: "Add links and choose a theme",
+    description:
+      "Add your links and social profiles, drag them into order and pick a look that fits you.",
     icon: "ListPlus",
   },
   {
-    step: 4,
-    title: "Share Anywhere",
-    description: "Put one link in every bio and send people everywhere.",
+    step: 3,
+    title: "Share one link everywhere",
+    description:
+      "Paste your link into your Instagram, YouTube or WhatsApp bio, or print the QR code.",
     icon: "Share2",
   },
 ];
@@ -132,27 +167,57 @@ export const ROADMAP = [
   },
 ];
 
+/** Rendered on the home page and mirrored into FAQPage structured data. */
 export const FAQS = [
   {
-    question: "Is LinkinBio free?",
-    answer: "Yes. All core features including themes and links are free.",
-  },
-  {
-    question: "Do you store my profile?",
-    answer: "Yes. Your profile and analytics are securely stored in the cloud using Firebase so you can access them from any device.",
-  },
-  {
-    question: "Why Google Login?",
+    question: "What is a link in bio?",
     answer:
-      "To uniquely identify your account, keep your data secure, and provide a seamless cross-device experience without remembering passwords.",
+      "A link in bio is a single page that holds all your important links. Social apps give you very little room for links on your profile, so you share one link in your bio and it opens a page with everything: your channels, shop, WhatsApp, portfolio and more.",
   },
   {
-    question: "Is cloud sync available?",
-    answer: "Yes! Your profile is instantly saved and synced to the cloud in real-time.",
+    question: "Is LinkinBio free?",
+    answer:
+      "Yes. Creating your page, unlimited links, themes, background images, the QR code and click analytics are all free. You don't need a credit card to sign up.",
   },
   {
-    question: "Are analytics available?",
-    answer: "Yes! A full real-time dashboard tracking profile views and specific link clicks is fully live.",
+    question: "How do I add my link to my Instagram bio?",
+    answer:
+      "Open Instagram, go to your profile and tap Edit profile, then Links, then Add external link. Paste your LinkinBio link (linkinbio.codelove.in/u/yourname), tap Done, and it shows on your profile.",
+  },
+  {
+    question: "Can I use it for my small business or WhatsApp orders?",
+    answer:
+      "Yes. Add a WhatsApp chat link so customers can message you in one tap, along with your catalogue or menu, Google Maps location, payment page and review link.",
+  },
+  {
+    question: "Can I see how many people clicked my links?",
+    answer:
+      "Yes. Your dashboard shows total profile views and total link clicks, and the Links page shows a click count next to every individual link.",
+  },
+  {
+    question: "Is LinkinBio an alternative to Linktree?",
+    answer:
+      "Yes. LinkinBio does the same core job, one page for all your links, and includes themes, custom backgrounds, a QR code and click analytics for free.",
+  },
+  {
+    question: "Do I need a website or coding skills?",
+    answer:
+      "No. You fill in your name and bio, paste your links and choose a theme. Your page is live as soon as you save.",
+  },
+  {
+    question: "Which platforms can I link to?",
+    answer:
+      "Any link works. There are built-in icons for Instagram, YouTube, WhatsApp, Facebook, LinkedIn, X, Threads, Telegram, TikTok and GitHub, and YouTube and Spotify links can play directly on your page.",
+  },
+  {
+    question: "Can I change my links or username later?",
+    answer:
+      "Yes, as often as you like. Edits to your links, theme and profile show on your page straight away.",
+  },
+  {
+    question: "Is my data safe?",
+    answer:
+      "Your profile is stored with Google Firebase and you sign in with Google or with an email and password. We do not sell your personal data, and you can export or delete your data from Settings at any time.",
   },
 ];
 
@@ -178,6 +243,13 @@ export const SOCIAL_PLATFORMS: SocialMeta[] = [
     icon: "Youtube",
     placeholder: "https://youtube.com/@yourchannel",
     color: "#FF0000",
+  },
+  {
+    key: "whatsapp",
+    label: "WhatsApp",
+    icon: "WhatsApp",
+    placeholder: "https://wa.me/919876543210",
+    color: "#25D366",
   },
   {
     key: "facebook",
@@ -208,6 +280,13 @@ export const SOCIAL_PLATFORMS: SocialMeta[] = [
     color: "#000000",
   },
   {
+    key: "telegram",
+    label: "Telegram",
+    icon: "Telegram",
+    placeholder: "https://t.me/yourhandle",
+    color: "#26A5E4",
+  },
+  {
     key: "tiktok",
     label: "TikTok",
     icon: "Music2",
@@ -221,6 +300,20 @@ export const SOCIAL_PLATFORMS: SocialMeta[] = [
     placeholder: "https://x.com/yourhandle",
     color: "#000000",
   },
+];
+
+/** Icon names that render a brand glyph instead of a Lucide icon. */
+export const BRAND_ICON_NAMES = [
+  "Youtube",
+  "Instagram",
+  "WhatsApp",
+  "Facebook",
+  "Twitter",
+  "Linkedin",
+  "Github",
+  "TikTok",
+  "Threads",
+  "Telegram",
 ];
 
 /** Lucide icon options offered when adding a link. */
@@ -241,21 +334,14 @@ export const LINK_ICONS = [
   "Gift",
   "Coffee",
   "BookOpen",
-  "Youtube",
-  "Instagram",
-  "Facebook",
-  "Twitter",
-  "Linkedin",
-  "Github",
-  "TikTok",
-  "Threads",
+  ...BRAND_ICON_NAMES,
 ];
 
 export const NAV_LINKS = [
   { label: "Features", href: "/#features" },
-  { label: "Why LinkinBio", href: "/#why" },
-  { label: "Privacy", href: "/#infrastructure" },
-  { label: "How it Works", href: "/#how-it-works" },
-  { label: "Analytics", href: "/#analytics" },
+  { label: "Who it's for", href: "/#who-its-for" },
+  { label: "Themes", href: "/#themes" },
+  { label: "How it works", href: "/#how-it-works" },
   { label: "FAQ", href: "/#faq" },
+  { label: "Blog", href: "/blog" },
 ];

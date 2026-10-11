@@ -12,6 +12,15 @@ export function Container({
   );
 }
 
+/** Small pill label that sits above a section heading. */
+export function Eyebrow({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-primary/25 bg-primary/[0.07] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
+      {children}
+    </span>
+  );
+}
+
 interface SectionHeadingProps {
   eyebrow?: string;
   title: string;
@@ -35,16 +44,12 @@ export function SectionHeading({
         className
       )}
     >
-      {eyebrow && (
-        <span className="text-sm font-semibold uppercase tracking-wider brand-text">
-          {eyebrow}
-        </span>
-      )}
-      <h2 className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+      {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+      <h2 className="font-display mt-4 text-balance text-3xl font-bold tracking-tight sm:text-[2.6rem] sm:leading-[1.1]">
         {title}
       </h2>
       {subtitle && (
-        <p className="mt-4 text-base text-muted-foreground sm:text-lg">
+        <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
           {subtitle}
         </p>
       )}

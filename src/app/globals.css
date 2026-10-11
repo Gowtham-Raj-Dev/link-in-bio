@@ -47,9 +47,11 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
+  --color-brand-500: var(--primary);
   --radius-xl: var(--radius);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-bricolage), var(--font-geist-sans), system-ui, sans-serif;
 }
 
 * {
@@ -234,4 +236,159 @@ html {
   -webkit-background-clip: text;
   background-clip: text;
   animation: shine-text 5s ease-in-out infinite;
+}
+
+/* Marketing site -------------------------------------------------------------- */
+
+/* Gradient headline text that stays readable in light mode. */
+.headline-gradient {
+  background-image: linear-gradient(110deg, #6366f1 0%, #a855f7 45%, #ec4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .headline-gradient {
+  background-image: linear-gradient(110deg, #818cf8 0%, #c084fc 45%, #f472b6 100%);
+}
+
+/* Static colour wash behind the hero. Cheap to paint, unlike the blurred blobs. */
+.hero-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 50% at 12% 0%, color-mix(in srgb, #6366f1 20%, transparent), transparent 70%),
+    radial-gradient(45% 45% at 92% 8%, color-mix(in srgb, #ec4899 15%, transparent), transparent 70%),
+    radial-gradient(45% 40% at 62% 100%, color-mix(in srgb, #8b5cf6 12%, transparent), transparent 70%);
+}
+.dark .hero-glow {
+  opacity: 0.75;
+}
+
+/* Faint grid that fades out towards the edges. */
+.grid-fade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 7%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, #000 25%, transparent 78%);
+}
+
+/* Entrance animation that runs without JavaScript, so the hero text is
+   readable (and measurable as LCP) as soon as the HTML arrives. */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.21, 0.47, 0.32, 0.98) both;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Scroll reveal with no JavaScript. Browsers without scroll-driven animations
+   simply show the content, so nothing is ever left hidden. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+.float-y {
+  animation: float-y 6s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+/* Endless row of platform pills. The track holds the list twice. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Card with a gradient hairline that lights up on hover. */
+/* Uses `translate` rather than `transform` so it composes with `.reveal`. */
+.lift-card {
+  position: relative;
+  transition: translate 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.lift-card:hover {
+  translate: 0 -4px;
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+  box-shadow: 0 20px 40px -24px color-mix(in srgb, var(--primary) 55%, transparent);
+}
+
+/* FAQ disclosure: answers stay in the HTML so search engines can read them. */
+.faq-item summary {
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+@supports (interpolate-size: allow-keywords) {
+  .faq-item {
+    interpolate-size: allow-keywords;
+  }
+  .faq-item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size 0.3s ease, content-visibility 0.3s allow-discrete;
+  }
+  .faq-item[open]::details-content {
+    block-size: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-up,
+  .reveal,
+  .float-y,
+  .marquee-track,
+  .aurora-bg::before,
+  .aurora-bg::after {
+    animation: none;
+  }
+  .lift-card,
+  .lift-card:hover {
+    transition: none;
+    translate: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }

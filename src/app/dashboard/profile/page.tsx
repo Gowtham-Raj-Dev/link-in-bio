@@ -10,6 +10,7 @@ import { Modal } from "@/components/ui/modal";
 import { useAppData } from "@/hooks/use-app-data";
 import { useAuth } from "@/lib/auth-context";
 import { isUsernameAvailable } from "@/lib/storage";
+import { clearClaimedUsername, readClaimedUsername } from "@/lib/claim";
 import { slugify } from "@/lib/utils";
 import type { ProfileData } from "@/lib/types";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -27,7 +28,11 @@ export default function ProfilePage() {
   const [origin, setOrigin] = useState("");
 
   useEffect(() => {
-    if (data && !form) setForm(data.profile);
+    if (data && !form) {
+      // A username typed on the landing page is offered here until one is saved.
+      const claimed = data.profile.username ? "" : readClaimedUsername();
+      setForm(claimed ? { ...data.profile, username: claimed } : data.profile);
+    }
     if (typeof window !== "undefined") setOrigin(window.location.origin);
   }, [data, form]);
 
@@ -98,6 +103,7 @@ export default function ProfilePage() {
   const handleSave = () => {
     if (usernameTaken) return;
     update((prev) => ({ ...prev, profile: form }));
+    clearClaimedUsername();
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };

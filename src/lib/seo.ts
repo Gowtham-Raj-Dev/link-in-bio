@@ -4,10 +4,6 @@ import { THEMES } from "./themes";
 
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? BRAND.url;
 
-/** Date the marketing pages last changed. Used as the sitemap `lastmod`, so
- *  bump it when page content changes instead of reporting every build as new. */
-export const SITE_UPDATED = "2026-10-10";
-
 export const OG_IMAGE = {
   url: "/og.png",
   width: 1200,

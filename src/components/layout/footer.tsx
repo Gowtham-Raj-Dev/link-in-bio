@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Heart } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { Container } from "@/components/ui/section";
-import { BRAND, CODELOVE_NETWORK } from "@/lib/constants";
+import { BRAND, CODELOVE_GUIDES, CODELOVE_NETWORK } from "@/lib/constants";
 
 const FOOTER_GROUPS = [
   {
@@ -37,7 +37,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-card/40">
       <Container className="py-14">
-        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.5fr_repeat(5,1fr)]">
           <div className="sm:col-span-2 md:col-span-3 lg:col-span-1">
             <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
@@ -68,8 +68,23 @@ export function Footer() {
               </ul>
             </nav>
           ))}
-          <nav aria-label="More from CodeLove">
-            <h2 className="text-sm font-semibold">More from CodeLove</h2>
+          <nav aria-label="Guides">
+            <h2 className="text-sm font-semibold">Guides</h2>
+            <ul className="mt-4 space-y-2.5">
+              {CODELOVE_GUIDES.map((guide) => (
+                <li key={guide.href}>
+                  <a
+                    href={guide.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                  >
+                    {guide.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <nav aria-label="CodeLove network">
+            <h2 className="text-sm font-semibold">CodeLove network</h2>
             <ul className="mt-4 space-y-2.5">
               {CODELOVE_NETWORK.map((site) => (
                 <li key={site.href}>

@@ -22,29 +22,41 @@ export const CODELOVE_NETWORK = [
     description: "The CodeLove home page",
   },
   {
-    label: "Downloader",
-    href: "https://downloader.codelove.in",
-    description: "Instagram and Pinterest media downloader",
-  },
-  {
-    label: "3D Models",
+    label: "Free 3D Models",
     href: "https://models.codelove.in",
     description: "Free 3D model library",
   },
   {
+    label: "Free 3D Games",
+    href: "https://games.codelove.in",
+    description: "Free 3D games in your browser",
+  },
+  {
+    label: "Instagram & Pinterest Downloader",
+    href: "https://downloader.codelove.in",
+    description: "Instagram and Pinterest media downloader",
+  },
+  {
     label: "Video to GIF",
     href: "https://videotogif.codelove.in",
-    description: "GIF Studio: turn videos into GIFs",
+    description: "Turn videos into GIFs",
   },
   {
     label: "Video to Images",
     href: "https://videotoimages.codelove.in",
-    description: "Frame Studio: video and image tools",
+    description: "Extract frames and images from videos",
+  },
+];
+
+/** Guides on codelove.in that go deeper on link in bio pages. */
+export const CODELOVE_GUIDES = [
+  {
+    label: "How link-in-bio pages boost your presence",
+    href: "https://codelove.in/learn/guide/how-link-in-bio-pages-boost-your-presence",
   },
   {
-    label: "3D Games",
-    href: "https://games.codelove.in",
-    description: "Free 3D games in your browser",
+    label: "What to put on your link-in-bio page",
+    href: "https://codelove.in/learn/guide/what-to-put-on-your-link-in-bio-page",
   },
 ];
 

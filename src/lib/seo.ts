@@ -32,7 +32,12 @@ export const KEYWORDS = [
   "one link for all social media",
   "Instagram bio link",
   "creator tools",
+  "bio link for Instagram free",
+  "linktree free alternative India",
+  "link in bio website",
+  "multiple links in Instagram bio",
   "CodeLove",
+  "CodeLove link in bio",
 ];
 
 /** Per-page metadata with its own canonical, Open Graph and Twitter card.

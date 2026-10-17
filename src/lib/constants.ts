@@ -7,7 +7,7 @@ export const BRAND = {
   founder: "Gowtham",
   url: "https://linkinbio.codelove.in",
   /** Browser title and search result headline for the home page. */
-  seoTitle: "Free Link in Bio Page Builder for Instagram | LinkinBio",
+  seoTitle: "Free Link in Bio Page Builder for Instagram | LinkinBio by CodeLove",
   description:
     "Create a free link in bio page in minutes. Add unlimited links, pick a theme, share one link on Instagram, YouTube and WhatsApp, and track every click.",
 };
@@ -40,6 +40,11 @@ export const CODELOVE_NETWORK = [
     label: "Video to Images",
     href: "https://videotoimages.codelove.in",
     description: "Frame Studio: video and image tools",
+  },
+  {
+    label: "3D Games",
+    href: "https://games.codelove.in",
+    description: "Free 3D games in your browser",
   },
 ];
 

@@ -53,7 +53,7 @@ export const CODELOVE_NETWORK = [
   },
   {
     label: "Free Java Games",
-    href: "https://javagames-emu.codelove.in",
+    href: "https://javaplay.codelove.in",
     description: "Play old Java J2ME phone games free in your browser or on Android",
   },
 ];

@@ -46,6 +46,16 @@ export const CODELOVE_NETWORK = [
     href: "https://videotoimages.codelove.in",
     description: "Extract frames and images from videos",
   },
+  {
+    label: "Free YouTube Automation",
+    href: "https://utubeflow.codelove.in",
+    description: "Bulk upload & schedule YouTube videos for free",
+  },
+  {
+    label: "Free Java Games",
+    href: "https://javagames-emu.codelove.in",
+    description: "Play old Java J2ME phone games free in your browser or on Android",
+  },
 ];
 
 /** Guides on codelove.in that go deeper on link in bio pages. */

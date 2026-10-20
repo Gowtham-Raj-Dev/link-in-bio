@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Heart } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
+import { HeartButton } from "@/components/ui/heart-button";
 import { Container } from "@/components/ui/section";
 import { BRAND, CODELOVE_GUIDES, CODELOVE_NETWORK } from "@/lib/constants";
 
@@ -127,12 +127,23 @@ export function Footer() {
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
           <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
-            Built with <Heart className="h-4 w-4 fill-red-500 text-red-500" /> by{" "}
+            Built with <HeartButton /> by{" "}
+            <a
+              href="https://gowtham.codelove.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground transition-colors hover:text-primary"
+            >
+              Gowtham
+            </a>
+            <span aria-hidden="true">·</span>
             <a
               href="https://codelove.in"
-              className="font-medium text-foreground hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground transition-colors hover:text-primary"
             >
-              {BRAND.developedBy}
+              CodeLove
             </a>
           </p>
           <p className="text-sm text-muted-foreground">

@@ -32,9 +32,9 @@ export const CODELOVE_NETWORK = [
     description: "Free 3D games in your browser",
   },
   {
-    label: "Instagram & Pinterest Downloader",
+    label: "Insta Downloader",
     href: "https://downloader.codelove.in",
-    description: "Instagram and Pinterest media downloader",
+    description: "Free Instagram Reels, video & photo downloader",
   },
   {
     label: "Video to GIF",

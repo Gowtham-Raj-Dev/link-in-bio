@@ -37,8 +37,8 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-card/40">
       <Container className="py-14">
-        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-[1.5fr_repeat(5,1fr)]">
-          <div className="sm:col-span-2 md:col-span-3 lg:col-span-1">
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+          <div className="sm:col-span-2 md:col-span-4 lg:col-span-1">
             <Logo />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               A free link in bio page builder for creators, small businesses
@@ -83,9 +83,13 @@ export function Footer() {
               ))}
             </ul>
           </nav>
+        </div>
+
+        {/* CodeLove network: a full-width row so the eight sites sit side by side instead of one tall column. */}
+        <div className="mt-12 grid gap-8 border-t border-border pt-8 lg:grid-cols-[1fr_auto] lg:items-start">
           <nav aria-label="CodeLove network">
             <h2 className="text-sm font-semibold">CodeLove network</h2>
-            <ul className="mt-4 space-y-2.5">
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-3 lg:grid-cols-4">
               {CODELOVE_NETWORK.map((site) => (
                 <li key={site.href}>
                   <a
@@ -98,31 +102,38 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <a
-              href="https://codelove.in"
-              aria-label="CodeLove — codelove.in"
-              className="mt-6 block"
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/codelove/codelove-footer-on-light.png"
-                alt="CodeLove"
-                width={704}
-                height={144}
-                loading="lazy"
-                className="h-auto w-full max-w-[235px] [.dark_&]:hidden"
-              />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/codelove/codelove-footer-on-dark.png"
-                alt="CodeLove"
-                width={704}
-                height={144}
-                loading="lazy"
-                className="hidden h-auto w-full max-w-[235px] [.dark_&]:block"
-              />
-            </a>
           </nav>
+          <div className="max-w-[260px] lg:justify-self-end">
+          <a
+            href="https://codelove.in"
+            aria-label="CodeLove — codelove.in"
+            className="block w-fit"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/codelove/codelove-footer-on-light.png"
+              alt="CodeLove"
+              width={704}
+              height={144}
+              loading="lazy"
+              className="h-12 w-auto [.dark_&]:hidden"
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/codelove/codelove-footer-on-dark.png"
+              alt="CodeLove"
+              width={704}
+              height={144}
+              loading="lazy"
+              className="hidden h-12 w-auto [.dark_&]:block"
+            />
+          </a>
+          {/* What CodeLove is, in one line — same text on every CodeLove site. */}
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+            CodeLove makes free web tools, apps and games for creators, students and developers — simple to use, no
+            hidden fees.
+          </p>
+          </div>
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">

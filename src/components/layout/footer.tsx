@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import { HeartButton } from "@/components/ui/heart-button";
+import { ContactLinks } from "@/components/layout/contact-links";
 import { Container } from "@/components/ui/section";
 import { BRAND, CODELOVE_GUIDES, CODELOVE_NETWORK } from "@/lib/constants";
 
@@ -137,7 +138,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
-          <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <p className="flex flex-wrap items-center justify-center gap-1.5 text-sm text-muted-foreground">
             Built with <HeartButton /> by{" "}
             <a
               href="https://gowtham.codelove.in"
@@ -156,6 +157,8 @@ export function Footer() {
             >
               CodeLove
             </a>
+            <span aria-hidden="true">·</span>
+            <ContactLinks className="text-foreground" />
           </p>
           <p className="text-sm text-muted-foreground">
             Founder:{" "}

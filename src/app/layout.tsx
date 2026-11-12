@@ -92,6 +92,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} h-full antialiased overflow-x-hidden`}
     >
       <head>
+        <link rel="sitemap" type="application/xml" href="https://linkinbio.codelove.in/sitemap.xml" />
         {/* A ternary, not `&&`: an empty ID would otherwise render "" into
             <head>, which breaks hydration and drops the stylesheet. */}
         {ADSENSE_CLIENT ? (

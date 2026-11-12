@@ -8,7 +8,7 @@ export const BRAND = {
   founderUrl: "https://gowtham.codelove.in",
   url: "https://linkinbio.codelove.in",
   /** Browser title and search result headline for the home page. */
-  seoTitle: "Link in Bio — Free Bio Link Page Builder for Instagram | CodeLove",
+  seoTitle: "Link in Bio Free — Bio Link Builder | CodeLove",
   description:
     "Build a free link in bio page in minutes. Combine your Instagram, YouTube, WhatsApp and store in one clean link in bio with custom themes and click analytics.",
 };

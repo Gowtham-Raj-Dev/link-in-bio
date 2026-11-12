@@ -27,7 +27,7 @@ export function Hero() {
             className="fade-up font-display mt-6 text-balance text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4rem]"
             style={delay(0.05)}
           >
-            One free link in bio for{" "}
+            Link in bio — one free page for{" "}
             <span className="headline-gradient">everything you share</span>
           </h1>
 

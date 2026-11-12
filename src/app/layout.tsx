@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   applicationName: BRAND.name,
   category: "technology",
   keywords: KEYWORDS,
-  authors: [{ name: BRAND.founder, url: "https://codelove.in" }],
-  creator: BRAND.developedBy,
+  authors: [{ name: BRAND.founder, url: BRAND.founderUrl }],
+  creator: BRAND.founder,
   publisher: BRAND.developedBy,
   icons: {
     icon: [{ url: "/favicon.ico" }],

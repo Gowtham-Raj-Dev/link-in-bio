@@ -72,20 +72,35 @@ export function pageMetadata({
 }
 
 const ORGANIZATION_ID = "https://codelove.in/#organization";
+const PERSON_ID = "https://gowtham.codelove.in/#person";
 
 /** Site-wide graph: who publishes the site and what the site is. */
 export const SITE_JSON_LD = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "Person",
+      "@id": PERSON_ID,
+      name: BRAND.founder,
+      alternateName: ["Gowthamraj", "Gowtham Raj"],
+      url: BRAND.founderUrl,
+    },
+    {
       "@type": "WebSite",
       "@id": `${BRAND.url}/#website`,
       url: BRAND.url,
       name: BRAND.name,
-      alternateName: [`${BRAND.name} by CodeLove`, "Link in Bio by CodeLove"],
+      alternateName: [
+        "Link in Bio",
+        "Free Link in Bio",
+        "Link in Bio India",
+        `${BRAND.name} by CodeLove`,
+        "Link in Bio by CodeLove",
+      ],
       description: BRAND.description,
       inLanguage: "en-IN",
       publisher: { "@id": ORGANIZATION_ID },
+      creator: { "@id": PERSON_ID },
     },
     {
       "@type": "Organization",
@@ -93,7 +108,7 @@ export const SITE_JSON_LD = {
       name: "CodeLove",
       url: "https://codelove.in",
       logo: `${BRAND.url}/icon-192.png`,
-      founder: { "@type": "Person", name: BRAND.founder },
+      founder: { "@id": PERSON_ID },
     },
   ],
 };
@@ -105,7 +120,8 @@ export const HOME_JSON_LD = {
     {
       "@type": "WebApplication",
       "@id": `${BRAND.url}/#app`,
-      name: BRAND.name,
+      name: "Link in Bio — LinkinBio by CodeLove",
+      alternateName: ["Link in Bio", "LinkinBio", "Free Link in Bio", "Link in Bio India"],
       url: BRAND.url,
       description: BRAND.description,
       applicationCategory: "BusinessApplication",
@@ -128,7 +144,8 @@ export const HOME_JSON_LD = {
         audienceType:
           "Content creators, influencers, small businesses, freelancers and students",
       },
-      author: { "@type": "Person", name: BRAND.founder },
+      author: { "@id": PERSON_ID },
+      creator: { "@id": PERSON_ID },
       publisher: { "@id": ORGANIZATION_ID },
     },
     {

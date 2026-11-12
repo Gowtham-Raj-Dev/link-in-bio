@@ -5,11 +5,12 @@ export const BRAND = {
   tagline: "One Link. Unlimited Possibilities.",
   developedBy: "CodeLove.in",
   founder: "Gowtham",
+  founderUrl: "https://gowtham.codelove.in",
   url: "https://linkinbio.codelove.in",
   /** Browser title and search result headline for the home page. */
-  seoTitle: "Free Link in Bio Page Builder for Instagram | LinkinBio by CodeLove",
+  seoTitle: "Link in Bio — Free Bio Link Page Builder for Instagram | CodeLove",
   description:
-    "Create a free link in bio page in minutes. Add unlimited links, pick a theme, share one link on Instagram, YouTube and WhatsApp, and track every click.",
+    "Build a free link in bio page in minutes. Combine your Instagram, YouTube, WhatsApp and store in one clean link in bio with custom themes and click analytics.",
 };
 
 export const CONTACT_EMAIL = "support@codelove.in";
@@ -20,6 +21,11 @@ export const CODELOVE_NETWORK = [
     label: "CodeLove",
     href: "https://codelove.in",
     description: "The CodeLove home page",
+  },
+  {
+    label: "Gowtham",
+    href: "https://gowtham.codelove.in",
+    description: "Gowtham — Developer portfolio",
   },
   {
     label: "Free 3D Models",
@@ -37,6 +43,11 @@ export const CODELOVE_NETWORK = [
     description: "Free Instagram Reels, video & photo downloader",
   },
   {
+    label: "Video Cut",
+    href: "https://videocut.codelove.in",
+    description: "Free video shorts cutter & online video splitter",
+  },
+  {
     label: "Video to GIF",
     href: "https://videotogif.codelove.in",
     description: "Turn videos into GIFs",
@@ -44,7 +55,7 @@ export const CODELOVE_NETWORK = [
   {
     label: "Video to Images",
     href: "https://videotoimages.codelove.in",
-    description: "Extract frames and images from videos",
+    description: "Extract frames and compress videos",
   },
   {
     label: "Free YouTube Automation",

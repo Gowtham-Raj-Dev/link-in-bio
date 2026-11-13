@@ -105,6 +105,8 @@ export default function RootLayout({
             />
           </>
         ) : null}
+        {/* CodeLove Analytics (admin.codelove.in) */}
+        <script defer src="https://admin.codelove.in/t.js" />
       </head>
       <body className="min-h-full overflow-x-hidden" suppressHydrationWarning>
         {/* Apply the saved/system color mode before paint to avoid a flash. */}

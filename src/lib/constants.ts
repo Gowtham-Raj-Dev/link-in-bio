@@ -48,6 +48,11 @@ export const CODELOVE_NETWORK = [
     description: "Free video shorts cutter & online video splitter",
   },
   {
+    label: "Free AI Video Maker",
+    href: "https://videomaker.codelove.in",
+    description: "Free AI video maker: script to talking cartoon or text video",
+  },
+  {
     label: "Video to GIF",
     href: "https://videotogif.codelove.in",
     description: "Turn videos into GIFs",

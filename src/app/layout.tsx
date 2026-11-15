@@ -105,8 +105,9 @@ export default function RootLayout({
             />
           </>
         ) : null}
-        {/* CodeLove Analytics (admin.codelove.in) */}
-        <script defer src="https://admin.codelove.in/t.js" />
+        {/* CodeLove Analytics (admin.codelove.in). async, not defer: React treats <script async src> as a resource and
+            skips it during hydration; a defer script gets compared with the script AdSense inserts into <head>. */}
+        <script async src="https://admin.codelove.in/t.js" />
       </head>
       <body className="min-h-full overflow-x-hidden" suppressHydrationWarning>
         {/* Apply the saved/system color mode before paint to avoid a flash. */}

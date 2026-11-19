@@ -8,9 +8,9 @@ export const BRAND = {
   founderUrl: "https://gowtham.codelove.in",
   url: "https://linkinbio.codelove.in",
   /** Browser title and search result headline for the home page. */
-  seoTitle: "Link in Bio Free — Bio Link Builder | CodeLove",
+  seoTitle: "Free Link in Bio Maker, Linktree Alternative | CodeLove",
   description:
-    "Build a free link in bio page in minutes. Combine your Instagram, YouTube, WhatsApp and store in one clean link in bio with custom themes and click analytics.",
+    "Free link in bio and bio link maker by CodeLove, a free Linktree alternative. Add Instagram, YouTube and WhatsApp links, themes and click analytics.",
 };
 
 export const CONTACT_EMAIL = "support@codelove.in";
@@ -238,9 +238,29 @@ export const FAQS = [
       "Yes. Your dashboard shows total profile views and total link clicks, and the Links page shows a click count next to every individual link.",
   },
   {
-    question: "Is LinkinBio an alternative to Linktree?",
+    question: "Is LinkinBio a free Linktree alternative?",
     answer:
-      "Yes. LinkinBio does the same core job, one page for all your links, and includes themes, custom backgrounds, a QR code and click analytics for free.",
+      "Yes. LinkinBio does the same core job as Linktree, one page for all your links, and there is no paid plan: themes, custom backgrounds, a QR code and click analytics are all included for free.",
+  },
+  {
+    question: "What is a bio link maker?",
+    answer:
+      "A bio link maker is a tool that builds the page your bio link opens. With LinkinBio you add your links and social profiles, pick a theme and get one short link (linkinbio.codelove.in/u/yourname) to paste into any bio.",
+  },
+  {
+    question: "How do I add a WhatsApp link to my link in bio?",
+    answer:
+      "In your dashboard, open Socials and paste your WhatsApp link in the form wa.me/91XXXXXXXXXX (country code, then number). It shows as a WhatsApp icon on your page. You can also add it under Links as a full button, such as Order on WhatsApp, with the WhatsApp icon.",
+  },
+  {
+    question: "Is this a link in bio for India?",
+    answer:
+      "LinkinBio is made in India by CodeLove and costs ₹0, with WhatsApp-first links that suit Indian creators and small shops. It works for anyone, anywhere: your page opens on any phone or browser.",
+  },
+  {
+    question: "Who makes CodeLove Link in Bio?",
+    answer:
+      "LinkinBio is part of CodeLove, a set of free web tools built by Gowtham, a solo developer. The other CodeLove tools, such as Video Cut and Free 3D Models, are linked at the bottom of this page.",
   },
   {
     question: "Do I need a website or coding skills?",

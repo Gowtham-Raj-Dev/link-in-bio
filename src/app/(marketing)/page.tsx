@@ -8,6 +8,7 @@ import { AnalyticsSection } from "@/components/landing/analytics-section";
 import { HowItWorks } from "@/components/landing/how-it-works";
 import { Faq } from "@/components/landing/faq";
 import { Cta } from "@/components/landing/cta";
+import { Guides } from "@/components/landing/guides";
 import { HOME_JSON_LD } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function HomePage() {
       <AnalyticsSection />
       <HowItWorks />
       <Faq />
+      <Guides />
       <Cta />
       {/* Structured data: the product and the FAQ shown above. */}
       <script

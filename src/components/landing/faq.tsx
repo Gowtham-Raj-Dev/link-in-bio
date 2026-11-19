@@ -13,7 +13,7 @@ export function Faq() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <Eyebrow>FAQ</Eyebrow>
             <h2 className="font-display mt-4 text-balance text-3xl font-bold tracking-tight sm:text-[2.6rem] sm:leading-[1.1]">
-              Link in bio questions, answered
+              Free link in bio questions, answered
             </h2>
             <p className="mt-4 text-base leading-relaxed text-muted-foreground">
               New to link in bio pages? Start here. If your question is not

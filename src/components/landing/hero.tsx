@@ -20,14 +20,14 @@ export function Hero() {
         <div className="text-center lg:text-left">
           <p className="fade-up inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/[0.07] px-3.5 py-1.5 text-xs font-medium text-foreground/85">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            Free link in bio builder · ₹0, no credit card
+            Free bio link maker · ₹0, no credit card
           </p>
 
           <h1
             className="fade-up font-display mt-6 text-balance text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-[4rem]"
             style={delay(0.05)}
           >
-            Link in bio — one free page for{" "}
+            Free link in bio — one page for{" "}
             <span className="headline-gradient">everything you share</span>
           </h1>
 

@@ -72,6 +72,11 @@ export const CODELOVE_NETWORK = [
     href: "https://javaplay.codelove.in",
     description: "Play old Java J2ME phone games free in your browser or on Android",
   },
+  {
+    label: "Webly",
+    href: "https://webly.codelove.in",
+    description: "Website analytics, deep SEO audit & automated problem fixes",
+  },
 ];
 
 /** Guides on codelove.in that go deeper on link in bio pages. */

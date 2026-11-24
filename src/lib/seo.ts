@@ -38,6 +38,13 @@ export const KEYWORDS = [
   "CodeLove link in bio",
 ];
 
+/** A <title> that stays under 60 characters, so Google shows it in full:
+ *  the longest brand suffix that fits, or the bare title. */
+export function fitTitle(title: string): string {
+  const candidates = [`${title} · LinkinBio by CodeLove`, `${title} | CodeLove`];
+  return candidates.find((t) => t.length <= 60) ?? title;
+}
+
 /** Per-page metadata with its own canonical, Open Graph and Twitter card.
  *  Next replaces (not merges) `openGraph`, so the image and siteName are
  *  repeated here instead of being dropped from the root layout's values. */

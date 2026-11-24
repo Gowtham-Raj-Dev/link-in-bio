@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Prose } from "@/components/marketing/prose";
 import { BLOG_POSTS, formatDate, getPost } from "@/lib/blog";
 import { BRAND } from "@/lib/constants";
-import { OG_IMAGE } from "@/lib/seo";
+import { fitTitle, OG_IMAGE } from "@/lib/seo";
+import { LANDING_PAGES } from "@/lib/landing-pages";
 
 export function generateStaticParams() {
   return BLOG_POSTS.map((post) => ({ slug: post.slug }));
@@ -22,7 +23,7 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return { title: "Article not found" };
   return {
-    title: post.title,
+    title: { absolute: fitTitle(post.seoTitle ?? post.title) },
     description: post.description,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
@@ -65,6 +66,17 @@ export default async function BlogPostPage({
 
   // Get related posts (just pick 2 others)
   const relatedPosts = BLOG_POSTS.filter((p) => p.slug !== slug).slice(0, 2);
+
+  // The three keyword pages sharing the most words with this post's slug.
+  const postWords = new Set(post.slug.split("-"));
+  const relatedTopics = [...LANDING_PAGES]
+    .map((page) => ({
+      page,
+      score: page.slug.split("-").filter((w) => w.length > 3 && postWords.has(w)).length,
+    }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 3)
+    .map((r) => r.page);
 
   return (
     <article className="py-16">
@@ -139,6 +151,22 @@ export default async function BlogPostPage({
                 Create your link for free
               </Link>
             </div>
+
+            <nav aria-label="Related topics" className="mt-10">
+              <h2 className="text-sm font-semibold">Related topics</h2>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {relatedTopics.map((topic) => (
+                  <li key={topic.slug}>
+                    <Link
+                      href={`/${topic.slug}`}
+                      className="inline-flex rounded-full border border-border bg-card px-4 py-2 text-sm font-medium transition-colors hover:border-primary/50 hover:text-primary"
+                    >
+                      {topic.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           </div>
 
           {/* Sidebar */}

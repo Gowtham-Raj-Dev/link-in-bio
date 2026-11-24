@@ -1,6 +1,8 @@
 export interface BlogPost {
   slug: string;
   title: string;
+  /** Shorter <title> for search results when `title` is too long. */
+  seoTitle?: string;
   description: string;
   date: string; // ISO
   readingTime: string;
@@ -15,7 +17,7 @@ export const BLOG_POSTS: BlogPost[] = [
     slug: "how-to-add-link-in-instagram-bio",
     title: "How to Add a Link in Your Instagram Bio (Step by Step)",
     description:
-      "A step-by-step guide to adding a link to your Instagram bio, how many links Instagram allows, and why one link in bio page usually works better than a list.",
+      "A step-by-step guide to adding a link to your Instagram bio, how many links Instagram allows, and why one link in bio page works better than a list.",
     date: "2026-10-10",
     readingTime: "4 min read",
     category: "Guide",
@@ -82,6 +84,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "why-you-need-a-custom-link-in-bio",
     title: "Why You Need a Custom Link in Bio (And Not Just Instagram's Default)",
+    seoTitle: "Why You Need a Custom Link in Bio, Not Instagram's Default",
     description: "Stop losing out on valuable insights. Here is the real reason why relying purely on standard social media linking is holding you back.",
     date: "2026-06-26",
     readingTime: "3 min read",
@@ -110,6 +113,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "why-one-link-beats-a-link-list",
     title: "Why one good link beats a wall of links",
+    seoTitle: "Why One Link in Bio Beats a Wall of Links",
     description:
       "More links in your bio isn't always better. Here's how to choose the few that actually move people to act.",
     date: "2026-06-10",
@@ -137,6 +141,7 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "anatomy-of-a-high-converting-bio-page",
     title: "The anatomy of a bio page people actually use",
+    seoTitle: "Anatomy of a Link in Bio Page People Actually Use",
     description:
       "A practical breakdown of the elements that make a link in bio page feel trustworthy and clickable.",
     date: "2026-06-05",

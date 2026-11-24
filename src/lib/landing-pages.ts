@@ -34,9 +34,9 @@ export const LANDING_PAGES: LandingPage[] = [
     label: "Free link in bio",
     keyword: "free link in bio",
     alsoFor: ["one link for all social media", "link in bio", "free bio link"],
-    title: "Free Link in Bio: One Link for All Your Social Media",
+    title: "Free Link in Bio: One Link for All Social Media",
     description:
-      "Make a free link in bio page in two minutes. One link for Instagram, YouTube, WhatsApp and everything else, with modern templates and click analytics. No credit card.",
+      "Make a free link in bio page in two minutes: one link for Instagram, YouTube, WhatsApp and more, with modern templates and click analytics.",
     h1: "A free link in bio, with one link for all your social media",
     intro:
       "Most apps give you room for a single link. LinkinBio turns that one link into a page that holds all of them: your Instagram, YouTube channel, WhatsApp number, shop, portfolio and anything else you want people to find. It is free, it works on every phone, and you can set it up in about two minutes.",
@@ -103,9 +103,9 @@ export const LANDING_PAGES: LandingPage[] = [
       "bio link for Instagram free",
       "multiple links in Instagram bio",
     ],
-    title: "Link in Bio for Instagram: Add Multiple Links Free",
+    title: "Link in Bio for Instagram: Multiple Links, Free",
     description:
-      "Add multiple links to your Instagram bio with one free link in bio page. Step-by-step setup, tips for more taps, and modern templates that look great on Instagram.",
+      "Add multiple links to your Instagram bio with one free link in bio page. Step-by-step setup, tips for more taps and modern templates.",
     h1: "Link in bio for Instagram: share every link from one bio",
     intro:
       "Instagram lets you add links to your profile, but visitors still see a short list with no design, no order and no idea which one to tap. A link in bio page fixes that. You put one link in your Instagram bio, and it opens a page with all your links laid out as clear, tappable buttons.",
@@ -165,9 +165,9 @@ export const LANDING_PAGES: LandingPage[] = [
     label: "Free Linktree alternative",
     keyword: "Linktree alternative",
     alsoFor: ["free Linktree alternative", "linktree free alternative India", "Linktree vs LinkinBio"],
-    title: "Free Linktree Alternative with Modern Templates | LinkinBio",
+    title: "Free Linktree Alternative with Modern Templates",
     description:
-      "Looking for a free Linktree alternative? LinkinBio gives you unlimited links, modern templates, background photos, embeds and click analytics free, built in India by CodeLove.",
+      "A free Linktree alternative by CodeLove: unlimited links, modern templates, background photos, embeds and click analytics, all free.",
     h1: "A free Linktree alternative that looks modern out of the box",
     intro:
       "Linktree made the link in bio idea popular, but many of the features people want sit behind a paid plan. LinkinBio is a free alternative from CodeLove. You get unlimited links, designed templates, your own background photo, media embeds and basic analytics without paying.",
@@ -230,9 +230,9 @@ export const LANDING_PAGES: LandingPage[] = [
     label: "WhatsApp link in bio",
     keyword: "WhatsApp link in bio",
     alsoFor: ["WhatsApp order link", "click to chat link in bio", "WhatsApp business link"],
-    title: "WhatsApp Link in Bio: Let Customers Message You in One Tap",
+    title: "WhatsApp Link in Bio: Chat and Order in One Tap",
     description:
-      "Add a WhatsApp link to your bio so customers can chat or order in one tap. How to make a click-to-chat link, where to put it, and how to pair it with your menu and location.",
+      "Add a WhatsApp link in bio so customers can chat or order in one tap. How to make a click-to-chat link and where to put it.",
     h1: "WhatsApp link in bio: turn profile visits into chats",
     intro:
       "For many small businesses and freelancers, WhatsApp is where the sale actually happens. A WhatsApp link in your bio lets a visitor open a chat with you in one tap, without saving your number first. On a LinkinBio page you can put that chat button right next to your menu, prices and location.",
@@ -293,9 +293,9 @@ export const LANDING_PAGES: LandingPage[] = [
     label: "Link in bio for small business",
     keyword: "link in bio for small business",
     alsoFor: ["small business bio link", "link in bio for shops", "link in bio for home business"],
-    title: "Link in Bio for Small Business: Orders, Menu, Maps in One Link",
+    title: "Link in Bio for Small Business: Orders & Maps",
     description:
-      "A free link in bio page for small businesses. Put your WhatsApp order link, menu, Google Maps location, payments and reviews behind one link customers can tap.",
+      "A free link in bio for small business: your WhatsApp order link, menu, Google Maps location, payments and reviews behind one link.",
     h1: "Link in bio for small business: everything a customer needs, one tap away",
     intro:
       "A customer who finds you on Instagram usually wants three things: what you sell, how much it costs and how to order. A link in bio page answers all three. LinkinBio gives your shop, home bakery, salon or studio a simple page with your order link, menu, location and reviews, free.",
@@ -355,9 +355,9 @@ export const LANDING_PAGES: LandingPage[] = [
     label: "Link in bio India",
     keyword: "link in bio India",
     alsoFor: ["Indian link in bio tool", "link in bio for Indian creators", "bio link India free"],
-    title: "Link in Bio India: Free Bio Link Tool Made in India",
+    title: "Link in Bio India: Free Bio Link Made in India",
     description:
-      "LinkinBio is a free link in bio tool made in India by CodeLove. WhatsApp, UPI and Google Maps links, modern templates and analytics for Indian creators and businesses.",
+      "Free link in bio tool made in India by CodeLove. WhatsApp, UPI and Google Maps links, modern templates and analytics for Indian creators.",
     h1: "Link in bio, made in India for Indian creators and businesses",
     intro:
       "LinkinBio is built in India by CodeLove. It is free, fast on everyday phones and mobile data, and made for the way people in India actually share and sell: through Instagram, YouTube and WhatsApp.",
@@ -416,9 +416,9 @@ export const LANDING_PAGES: LandingPage[] = [
     label: "Bio link maker",
     keyword: "bio link maker",
     alsoFor: ["link in bio page builder", "link in bio website", "bio page maker"],
-    title: "Bio Link Maker: Build Your Link in Bio Page in 2 Minutes",
+    title: "Bio Link Maker: Make a Link in Bio Page Free",
     description:
-      "A free bio link maker and link in bio page builder. Add your photo, links and socials, pick a modern template and get a shareable link and QR code in two minutes.",
+      "A free bio link maker and link in bio page builder. Add your photo, links and socials, pick a template, and share your link and QR code.",
     h1: "Bio link maker: build a link in bio page in two minutes",
     intro:
       "LinkinBio is a bio link maker that does the design for you. You bring your photo, a short bio and your links. Pick a template and you get a finished page with its own link and QR code, ready to share.",
@@ -477,9 +477,9 @@ export const LANDING_PAGES: LandingPage[] = [
     label: "Link in bio with analytics",
     keyword: "link in bio with analytics",
     alsoFor: ["link in bio click tracking", "bio link analytics", "link click counter"],
-    title: "Link in Bio with Analytics: See Views and Link Clicks Free",
+    title: "Link in Bio with Analytics: Views and Clicks Free",
     description:
-      "A free link in bio with analytics. Track profile views and clicks on every link, find what your audience taps, and reorder your page to get more clicks.",
+      "A free link in bio with analytics. Track profile views and clicks on every link, see what your audience taps, and get more clicks.",
     h1: "Link in bio with analytics: know what your audience taps",
     intro:
       "A link in bio page is more useful when you can see how it performs. LinkinBio counts how many people view your page and how many times each link is tapped, so you can stop guessing and put your best links first.",
@@ -535,9 +535,9 @@ export const LANDING_PAGES: LandingPage[] = [
     label: "Link in bio for YouTube",
     keyword: "link in bio for YouTube",
     alsoFor: ["YouTube creator link in bio", "YouTube channel links page", "link in bio for creators"],
-    title: "Link in Bio for YouTube Creators: Videos, Gear and Socials",
+    title: "Link in Bio for YouTube: Videos, Gear, Socials",
     description:
-      "A free link in bio for YouTube creators. Play your latest video on your page, link your gear, sponsors and socials, and use one link in your channel and Shorts.",
+      "A free link in bio for YouTube creators. Play your latest video on your page and link your gear, sponsors and socials from one link.",
     h1: "Link in bio for YouTube creators",
     intro:
       "YouTube viewers who want more from you need one place to go. A LinkinBio page holds your latest video, your other socials, gear list, sponsor codes and business email. Put the link in your channel header, video descriptions and pinned comments.",

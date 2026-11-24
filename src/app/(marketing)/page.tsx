@@ -9,6 +9,7 @@ import { HowItWorks } from "@/components/landing/how-it-works";
 import { Faq } from "@/components/landing/faq";
 import { Cta } from "@/components/landing/cta";
 import { Guides } from "@/components/landing/guides";
+import { UseCases } from "@/components/landing/use-cases";
 import { HOME_JSON_LD } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function HomePage() {
       <ThemesShowcase />
       <AnalyticsSection />
       <HowItWorks />
+      <UseCases />
       <Faq />
       <Guides />
       <Cta />

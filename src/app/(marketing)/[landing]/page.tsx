@@ -25,8 +25,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!page) return {};
   const path = `/${page.slug}`;
   return {
-    // Absolute: the page title is already written around its keyword.
-    title: { absolute: `${page.title} · CodeLove` },
+    // Absolute and under 60 characters: the title leads with its keyword.
+    title: { absolute: `${page.title} | CodeLove` },
     description: page.description,
     keywords: [page.keyword, ...page.alsoFor, "LinkinBio", "CodeLove"],
     alternates: { canonical: path },

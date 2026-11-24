@@ -32,6 +32,8 @@ export const KEYWORDS = [
   "linktree free alternative India",
   "link in bio website",
   "multiple links in Instagram bio",
+  "link in bio for YouTube",
+  "link in bio for creators",
   "CodeLove",
   "CodeLove link in bio",
 ];

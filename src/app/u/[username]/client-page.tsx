@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Loader2, UserX } from "lucide-react";
 import { ProfileView } from "@/components/profile/profile-view";
@@ -9,12 +9,12 @@ import { getFirebaseDb } from "@/lib/firebase";
 import { collection, getDocs, query, where, doc, setDoc, increment } from "firebase/firestore";
 import { loadPublicProfile } from "@/lib/storage";
 import { DEMO_DATA, DEMO_USERNAME } from "@/lib/demo";
-import { getTheme } from "@/lib/themes";
 import type { AppData } from "@/lib/types";
 
 export function PublicProfileClient({ username }: { username: string }) {
   const [state, setState] = useState<"loading" | "found" | "missing">("loading");
   const [data, setData] = useState<AppData | null>(null);
+  const viewCounted = useRef(false);
 
   const decoded = decodeURIComponent(username).toLowerCase();
 
@@ -25,6 +25,18 @@ export function PublicProfileClient({ username }: { username: string }) {
       return;
     }
 
+    // Show the last copy this browser saw straight away, then refresh it.
+    const cacheKey = `linkinbio:public:${decoded}`;
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        setData(JSON.parse(cached) as AppData);
+        setState("found");
+      }
+    } catch {
+      // ignore a broken cache entry
+    }
+
     async function fetchProfile() {
       try {
         const db = getFirebaseDb();
@@ -32,16 +44,24 @@ export function PublicProfileClient({ username }: { username: string }) {
           const usersRef = collection(db, "users");
           const q = query(usersRef, where("profile.username", "==", decoded));
           const querySnapshot = await getDocs(q);
-          
+
           if (!querySnapshot.empty) {
-            // Found in Firestore!
-            setData(querySnapshot.docs[0].data() as AppData);
+            const fresh = querySnapshot.docs[0].data() as AppData;
+            setData(fresh);
             setState("found");
+            try {
+              localStorage.setItem(cacheKey, JSON.stringify(fresh));
+            } catch {
+              // storage full or blocked
+            }
             return;
           }
+          localStorage.removeItem(cacheKey);
         }
       } catch (err) {
         console.error("Failed to load from Firestore", err);
+        // Offline or blocked: keep the cached copy if there is one.
+        if (localStorage.getItem(cacheKey)) return;
       }
 
       // Fallback to local storage (for users created locally before Firebase)
@@ -70,7 +90,10 @@ export function PublicProfileClient({ username }: { username: string }) {
       }
       meta.setAttribute('content', desc);
 
-      // Increment profile views
+      // Increment profile views, once per visit (the cached copy and the
+      // fresh copy both arrive here).
+      if (viewCounted.current) return;
+      viewCounted.current = true;
       try {
         const db = getFirebaseDb();
         if (db && data.profile.username && decoded !== DEMO_USERNAME) {
@@ -109,21 +132,9 @@ export function PublicProfileClient({ username }: { username: string }) {
     );
   }
 
-  const theme = getTheme(data.themeId);
-
   return (
-    <div 
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden sm:p-12"
-      style={{ background: data.profile.customBg || theme.background }}
-    >
-      <div className="pointer-events-none hidden sm:absolute sm:inset-0 sm:block sm:bg-black/5 sm:backdrop-blur-3xl" />
-      
-      <div 
-        className="relative z-10 flex w-full flex-1 flex-col sm:max-h-[850px] sm:max-w-[400px] sm:flex-none sm:overflow-y-auto sm:rounded-[3rem] sm:border-[8px] sm:border-zinc-900 sm:shadow-2xl sm:ring-1 sm:ring-black/10 no-scrollbar bg-background"
-        style={{ background: data.profile.customBg || theme.background }}
-      >
-        <ProfileView data={data} />
-      </div>
+    <div className="flex min-h-screen flex-col">
+      <ProfileView data={data} />
     </div>
   );
 }

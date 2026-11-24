@@ -201,6 +201,24 @@ html {
   50% { transform: translateY(-5px); }
 }
 
+/* Profile links on the static host are served by the 404 page. The inline
+   script in the root layout tags <html> so a loader shows, never the 404 text. */
+.nf-loader { display: none; }
+.route-profile .nf-loader { display: block; }
+.route-profile .nf-page { display: none; }
+
+/* Public profile link buttons. */
+.profile-link {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+.profile-link:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+.profile-link:active {
+  transform: translateY(0) scale(0.99);
+}
+
 .anim-wobble { animation: wobble 2s ease-in-out infinite; }
 .anim-pulse { animation: pulse-strong 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 .anim-bounce { animation: bounce-subtle 2s ease-in-out infinite; }

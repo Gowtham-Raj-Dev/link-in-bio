@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 export const dynamic = "force-static";
 import { BLOG_POSTS } from "@/lib/blog";
+import { LANDING_PAGES } from "@/lib/landing-pages";
 import { SITE_URL } from "@/lib/seo";
 
 // Only indexable pages belong here: no dashboard, login or user profiles.
@@ -14,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const paths = [
     ...STATIC_ROUTES,
+    ...LANDING_PAGES.map((page) => `/${page.slug}`),
     ...BLOG_POSTS.map((post) => `/blog/${post.slug}`),
   ];
 

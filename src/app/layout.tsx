@@ -113,7 +113,7 @@ export default function RootLayout({
         {/* Apply the saved/system color mode before paint to avoid a flash. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var k='linkinbio:color-mode';var m=localStorage.getItem(k);if(m!=='light'&&m!=='dark'){m=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}var e=document.documentElement;e.classList.toggle('dark',m==='dark');e.style.colorScheme=m;}catch(e){}})();`,
+            __html: `(function(){try{var k='linkinbio:color-mode';var m=localStorage.getItem(k);if(m!=='light'&&m!=='dark'){m=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}var e=document.documentElement;e.classList.toggle('dark',m==='dark');e.style.colorScheme=m;if(location.pathname.indexOf('/u/')===0)e.classList.add('route-profile');}catch(e){}})();`,
           }}
         />
         <script

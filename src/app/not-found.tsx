@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
+import { useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,41 +12,68 @@ import { Logo } from "@/components/brand/logo";
 // library, so a static import would add that weight to the whole site.
 const PublicProfileClient = dynamic(
   () => import("./u/[username]/client-page").then((m) => m.PublicProfileClient),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex min-h-screen items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    ),
-  }
+  { ssr: false, loading: () => <ProfileLoader /> }
 );
 
-export default function NotFound() {
-  const pathname = usePathname();
+function ProfileLoader() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    </div>
+  );
+}
 
-  // If the path is a profile link, render the profile client immediately to prevent 404 flash.
-  if (pathname?.startsWith("/u/")) {
-    const username = pathname.split("/u/")[1]?.split("/")[0];
-    if (username) {
-      return <PublicProfileClient username={username} />;
+const noop = () => () => {};
+
+/** The browser path, or null while the static HTML is being hydrated. */
+function usePathOnClient(): string | null {
+  return useSyncExternalStore(
+    noop,
+    () => window.location.pathname,
+    () => null
+  );
+}
+
+/**
+ * The site is a static export, so the host answers every profile link
+ * (/u/anyname) with this 404 page. The root layout's inline script tags
+ * <html> with `route-profile` before first paint, and CSS then shows the
+ * loader instead of the 404 text. Once hydrated, the profile renders.
+ */
+export default function NotFound() {
+  const path = usePathOnClient();
+
+  // A real 404 reached by in-app navigation after a profile visit.
+  useEffect(() => {
+    if (path && !path.startsWith("/u/")) {
+      document.documentElement.classList.remove("route-profile");
     }
+  }, [path]);
+
+  if (path?.startsWith("/u/")) {
+    const username = path.split("/u/")[1]?.split("/")[0];
+    if (username) return <PublicProfileClient username={username} />;
   }
 
   return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
-      <div className="aurora-bg" />
-      <div className="relative">
-        <Logo href="/" />
-        <h1 className="font-display mt-8 text-7xl font-bold tracking-tight brand-text">404</h1>
-        <p className="mt-4 text-lg font-semibold">This page took a wrong turn</p>
-        <p className="mt-2 max-w-sm text-sm text-muted-foreground">
-          The link you followed may be broken, or the page may have moved.
-        </p>
-        <Link href="/" className="mt-8 inline-block">
-          <Button size="lg">Back to home</Button>
-        </Link>
+    <>
+      <div className="nf-loader">
+        <ProfileLoader />
       </div>
-    </div>
+      <div className="nf-page relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 text-center">
+        <div className="aurora-bg" />
+        <div className="relative">
+          <Logo href="/" />
+          <h1 className="font-display mt-8 text-7xl font-bold tracking-tight brand-text">404</h1>
+          <p className="mt-4 text-lg font-semibold">This page took a wrong turn</p>
+          <p className="mt-2 max-w-sm text-sm text-muted-foreground">
+            The link you followed may be broken, or the page may have moved.
+          </p>
+          <Link href="/" className="mt-8 inline-block">
+            <Button size="lg">Back to home</Button>
+          </Link>
+        </div>
+      </div>
+    </>
   );
 }

@@ -4,6 +4,7 @@ import { HeartButton } from "@/components/ui/heart-button";
 import { ContactLinks } from "@/components/layout/contact-links";
 import { Container } from "@/components/ui/section";
 import { BRAND, CODELOVE_GUIDES, CODELOVE_NETWORK } from "@/lib/constants";
+import { LANDING_PAGES } from "@/lib/landing-pages";
 
 const FOOTER_GROUPS = [
   {
@@ -85,6 +86,23 @@ export function Footer() {
             </ul>
           </nav>
         </div>
+
+        {/* Keyword pages: linked from every page so each one is easy to crawl. */}
+        <nav aria-label="Link in bio for" className="mt-12 border-t border-border pt-8">
+          <h2 className="text-sm font-semibold">Link in bio for</h2>
+          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 sm:grid-cols-3 lg:grid-cols-5">
+            {LANDING_PAGES.map((page) => (
+              <li key={page.slug}>
+                <Link
+                  href={`/${page.slug}`}
+                  className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {page.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         {/* CodeLove network: a full-width row so the eight sites sit side by side instead of one tall column. */}
         <div className="mt-12 grid gap-8 border-t border-border pt-8 lg:grid-cols-[1fr_auto] lg:items-start">

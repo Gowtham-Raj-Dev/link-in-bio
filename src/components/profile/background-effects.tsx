@@ -7,7 +7,7 @@ export function BackgroundEffects({ themeId, style }: { themeId: string, style?:
   if (!style || style === "solid") return null;
 
   const theme = getTheme(themeId);
-  const color = theme.buttonBg === "transparent" ? theme.text : theme.buttonBg;
+  const color = theme.accent;
 
   if (style === "dots") {
     return (
@@ -48,7 +48,7 @@ export function BackgroundEffects({ themeId, style }: { themeId: string, style?:
       
       <motion.div
         className="absolute -right-[15%] top-[35%] h-[45vw] w-[45vw] max-h-[400px] max-w-[400px] rounded-full blur-[60px]"
-        style={{ background: theme.buttonBorder !== "transparent" ? theme.buttonBorder : theme.text, opacity: 0.2 }}
+        style={{ background: theme.accent, opacity: 0.2 }}
         animate={{
           x: [0, -30, 0],
           y: [0, -60, 0],

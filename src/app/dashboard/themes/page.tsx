@@ -7,6 +7,9 @@ import { PreviewFrame } from "@/components/profile/preview-frame";
 import { useAppData } from "@/hooks/use-app-data";
 import { THEMES } from "@/lib/themes";
 import { cn } from "@/lib/utils";
+import { MiniProfile, SAMPLE_PROFILES } from "@/components/marketing/mini-profile";
+
+const SAMPLE = SAMPLE_PROFILES.creator;
 
 const IMAGE_BACKGROUNDS = [
   { id: "img-1", name: "Abstract Fluid", url: "/bg-images/bg-1.webp" },
@@ -115,7 +118,7 @@ export default function ThemesPage() {
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Appearance</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Pick a look for your page. Changes preview instantly.
+              Pick one of {THEMES.length} templates. Each has its own layout, buttons and font. Changes preview instantly.
             </p>
           </div>
           
@@ -156,30 +159,23 @@ export default function ThemesPage() {
                       : "border-border hover:border-primary/40"
                   )}
                 >
-                  <div
-                    className="flex h-32 flex-col items-center justify-center gap-2 p-4"
-                    style={{ background: theme.background, color: theme.text }}
-                  >
-                    <span
-                      className="h-8 w-8 rounded-full"
-                      style={{
-                        background: theme.buttonBg,
-                        border: theme.buttonBorder,
-                      }}
-                    />
-                    <span
-                      className="h-3 w-20 rounded-full"
-                      style={{ background: theme.buttonBg, border: theme.buttonBorder }}
-                    />
-                    <span
-                      className="h-3 w-16 rounded-full"
-                      style={{ background: theme.buttonBg, border: theme.buttonBorder }}
+                  <div className="h-56 overflow-hidden">
+                    <MiniProfile
+                      profile={SAMPLE}
+                      themeId={theme.id}
+                      label={`${theme.name} theme preview`}
+                      compact
+                      frame={false}
+                      className="pointer-events-none h-[17rem] w-full transition-transform duration-300 group-hover:scale-[1.03]"
                     />
                   </div>
-                  <div className="flex items-center justify-between bg-card px-3 py-2.5">
-                    <span className="text-sm font-medium">{theme.name}</span>
+                  <div className="flex items-center justify-between gap-2 border-t border-border bg-card px-3 py-2.5">
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-semibold">{theme.name}</span>
+                      <span className="block truncate text-[11px] text-muted-foreground">{theme.tag}</span>
+                    </span>
                     {active && (
-                      <span className="brand-gradient flex h-5 w-5 items-center justify-center rounded-full">
+                      <span className="brand-gradient flex h-5 w-5 shrink-0 items-center justify-center rounded-full">
                         <Check className="h-3 w-3 text-white" />
                       </span>
                     )}

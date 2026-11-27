@@ -73,6 +73,21 @@ export const CODELOVE_NETWORK = [
     description: "Play old Java J2ME phone games free in your browser or on Android",
   },
   {
+    label: "VOLTARC Arcade",
+    href: "https://voltarc.codelove.in",
+    description: "Play 3,000+ instant HTML5 & 3D browser games",
+  },
+  {
+    label: "Satisfying Video Maker",
+    href: "https://satisfying-video-maker.codelove.in",
+    description: "Browser physics simulations & ASMR video studio",
+  },
+  {
+    label: "ILoveConvert",
+    href: "https://iloveconvert.codelove.in",
+    description: "Free online file, image & developer converters",
+  },
+  {
     label: "Webly",
     href: "https://webly.codelove.in",
     description: "Website analytics, deep SEO audit & automated problem fixes",
